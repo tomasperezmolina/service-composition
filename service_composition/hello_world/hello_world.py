@@ -1,6 +1,14 @@
 import luigi
 import os
 
+class MakeDirectory(luigi.Task):
+    path = luigi.Parameter()
+
+    def output(self):
+        return luigi.LocalTarget(self.path)
+
+    def run(self):
+        os.makedirs(self.path)
 
 class PrintWordTask(luigi.Task):
     path = luigi.Parameter()
@@ -18,7 +26,6 @@ class PrintWordTask(luigi.Task):
         return [
             MakeDirectory(path=os.path.dirname(self.path)),
         ]
-
 
 class HelloWorldTask(luigi.Task):
     id = luigi.Parameter(default='test')
@@ -48,16 +55,6 @@ class HelloWorldTask(luigi.Task):
     def output(self):
         path = 'results/{}/hello_world.txt'.format(self.id)
         return luigi.LocalTarget(path)
-
-
-class MakeDirectory(luigi.Task):
-    path = luigi.Parameter()
-
-    def output(self):
-        return luigi.LocalTarget(self.path)
-
-    def run(self):
-        os.makedirs(self.path)
 
 
 if __name__ == '__main__':

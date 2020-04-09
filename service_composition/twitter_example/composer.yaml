@@ -1,0 +1,21 @@
+pipeline:
+    - TwitterCrawler
+    - Geolocation
+    - Print
+services:
+    - TwitterCrawler:
+        type: python
+        file: get_tweets.py
+    - Geolocation:
+        type: HTTP
+        url: http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json
+        method: POST
+        auth:
+            - type: BASIC
+            - user: $USERNAME
+            - password: $USERNAME
+    - Print:
+        type: python
+        file: print_it.py
+        
+

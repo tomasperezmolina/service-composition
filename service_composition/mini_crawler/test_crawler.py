@@ -1,9 +1,9 @@
-from mini_crawler import MiniCrawler
+from service_composition.mini_crawler.mini_crawler import MiniCrawler
 import os
 import json
 
-CONFIG_PATH="../config/config.json"
-OUTPUT_FOLDER = "../data/test"
+CONFIG_PATH="config.json"
+OUTPUT_FOLDER = "data/test"
 TERMS = ["covid", "coronavirus", "covid-19", "#covid-19", "#coronavirus"]
 
 def test_constructor():

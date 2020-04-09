@@ -1,4 +1,4 @@
-from fake_crawler import FakeCrawler
+from service_composition.mini_crawler.fake_crawler import FakeCrawler
 
 TEST_FILE="../data/test.txt"
 
