@@ -25,7 +25,7 @@ def test_crawler():
     n = 1
     for tweet in result:
         print("Tweet {}:".format(n))
-        print(tweet["full_text"])
+        print(tweet["text"])
         print("\n")
         n += 1
 

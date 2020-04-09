@@ -100,8 +100,8 @@ class MiniCrawler(twython.Twython):
         while current_max_id != prev_max_id and retry_cnt > 0 and amount > cnt:
             try:
                 print("querying {} tweets".format(batch_size))
-                if current_max_id > 0:
-                    tweets = self.search(q=query, geocode=geo, since_id=since_id, lang=lang, tweet_mode='extended', max_id=current_max_id-1, result_type='recent', count=batch_size)
+                if current_max_id > 0: 
+                    tweets = self.search(q=query, geocode=geo, since_id=since_id, lang=lang, tweet_mode='extended', max_id=current_max_id-1,count=batch_size) # result_type='recent',
                 else:
                     tweets = self.search(q=query, geocode=geo, since_id=since_id, lang=lang, tweet_mode='extended', result_type='recent', count=batch_size)
 
