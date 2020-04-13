@@ -9,7 +9,7 @@ q = Queue(path)
 def task1():
     for i in range(0, 100, 10):
         [q.put(j, timeout=1) for j in range(i, i + 10)]
-        print("Task1 put 10 items: {}-{}", i, i+10)
+        print("Task1 put 10 items: {}-{}".format(i, i+9))
         time.sleep(0.2)
 
 def task2():
@@ -25,7 +25,7 @@ def task2():
             [q.task_done() for _ in range(0, 10)]
 
             count += 10
-            print("Task2 popped items: {}", items)
+            print("Task2 popped items: {}".format(items))
 
 t1 = Thread(target=task1)
 t1.start()
