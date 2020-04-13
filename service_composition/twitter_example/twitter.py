@@ -54,10 +54,10 @@ class Geolocate(luigi.Task):
                     print(r.json())
     
     def output(self):
-        return luigi.LocalTarget('results/{}/geolocated.txt'.format(self.id))
+        return luigi.LocalTarget('output_files/twitter_results/{}/geolocated.txt'.format(self.id))
 
     def requires(self):
-        return TwitterCrawler(path='results/{}/tweets.txt'.format(self.id), terms=[])
+        return TwitterCrawler(path='output_files/twitter_results/{}/tweets.txt'.format(self.id), terms=[])
 
 class PrintCrawled(luigi.Task):
     id = luigi.Parameter(default='test')
@@ -73,7 +73,7 @@ class PrintCrawled(luigi.Task):
         return Geolocate()
 
     def output(self):
-        path = 'results/{}/done_deal.txt'.format(self.id)
+        path = 'output_files/twitter_results/{}/done_deal.txt'.format(self.id)
         return luigi.LocalTarget(path)
 
 if __name__ == '__main__':

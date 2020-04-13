@@ -43,17 +43,17 @@ class HelloWorldTask(luigi.Task):
     def requires(self):
         return [
             PrintWordTask(
-                path='results/{}/hello.txt'.format(self.id),
+                path='output_files/hello_world/{}/hello.txt'.format(self.id),
                 word='Hello',
             ),
             PrintWordTask(
-                path='results/{}/world.txt'.format(self.id),
+                path='output_files/hello_world/{}/world.txt'.format(self.id),
                 word='World',
             ),
         ]
 
     def output(self):
-        path = 'results/{}/hello_world.txt'.format(self.id)
+        path = 'output_files/hello_world/{}/hello_world.txt'.format(self.id)
         return luigi.LocalTarget(path)
 
 
