@@ -2,8 +2,9 @@ import luigi
 import os
 import json
 import requests
+from multiprocessing import Pool
 
-from ..twitter_example import get_tweets, print_it
+from ...twitter_example import get_tweets, print_it
 
 class MakeDirectory(luigi.Task):
     path = luigi.Parameter()
@@ -14,6 +15,14 @@ class MakeDirectory(luigi.Task):
     def run(self):
         os.makedirs(self.path)
 
+class IAmUseless(luigi.Task):
+    def output(self):
+        return luigi.LocalTarget("dummy")
+
+    def run(self):
+        with open(self.output().path, 'w') as file:
+            file.write("dummy")
+
 class TwitterCrawler(luigi.Task):
     terms = luigi.ListParameter()
     path = luigi.Parameter()
@@ -22,37 +31,43 @@ class TwitterCrawler(luigi.Task):
         return luigi.LocalTarget(self.path)
 
     def run(self):
+        
+
         with open(self.output().path, 'w') as out:
             tweets = get_tweets.run()
-            for i, t in zip(range(5), tweets): 
+            for i, t in zip(range(10), tweets): 
                 out.write(json.dumps(t))
                 out.write('\n')
 
     def requires(self):
-        return MakeDirectory(path=os.path.dirname(self.path))
+        return [MakeDirectory(path=os.path.dirname(self.path)), IAmUseless()]
 
 class Geolocate(luigi.Task):
     id = luigi.Parameter(default='test')
     user = luigi.Parameter()
     password = luigi.Parameter()
 
+    def f(self, t):
+        print("sending request...")
+        js = json.loads(t)
+        r = requests.post(
+            "http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json", 
+            json=js, 
+            auth=(self.user, self.password), 
+            timeout=200
+        )
+        js["cime_geo"] = r.json() if r.ok else "null"
+        return js
+
     def run(self):
         with open(self.input().path, 'r') as tweets_file, open(self.output().path, 'w') as geolocated:
-            for t in tweets_file:
-                js = json.loads(t)
-                r = requests.post(
-                    "http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json", 
-                    json=js, 
-                    auth=(self.user, self.password), 
-                    timeout=200
-                )
-                if r.ok:
-                    js["cime_geo"] = r.json() if r.ok else "null"
+            n = 4
+            with Pool(n) as p:
+                results = p.map(self.f, tweets_file)
+                for js in results:
                     geolocated.write(json.dumps(js))
                     geolocated.write('\n')
-                else:
-                    print(r.json())
-    
+               
     def output(self):
         return luigi.LocalTarget('output_files/twitter_results/{}/geolocated.txt'.format(self.id))
 
@@ -70,7 +85,7 @@ class PrintCrawled(luigi.Task):
             out.write("done")
 
     def requires(self):
-        return Geolocate()
+        return Geolocate(id=self.id)
 
     def output(self):
         path = 'output_files/twitter_results/{}/done_deal.txt'.format(self.id)
