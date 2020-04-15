@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "57c745bdf7f03bf00d7241fb811b6ee56fdfaa475280cc47559c263a588c5581"
+            "sha256": "f4d9f276d58c7f02fcfb51253152b222e9a0f5ecfb43afa0a877ee486c28d33e"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3.7"
         },
         "sources": [
             {
@@ -300,6 +300,13 @@
                 "sha256:a50b808ffeb97cb3601dd25981f6b016cbb3d31fbf57a8b8a87428e6158d0c74"
             ],
             "version": "==0.2.8"
+        },
+        "pybossa-client": {
+            "hashes": [
+                "sha256:5ae0332b17237984ff0f0662b34931ea4b202b50246db5ef38188f0c631b1d93"
+            ],
+            "index": "pypi",
+            "version": "==3.0.0"
         },
         "pydot": {
             "hashes": [
