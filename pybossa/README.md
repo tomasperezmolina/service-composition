@@ -16,5 +16,11 @@ You can find your docker-ip with:
 docker-machine ip
 ```
 
+Sign up and get your API key
+
 # Containers
 See the [PyBossa](https://github.com/jvstein/docker-pybossa) container for more details.
+
+# Wrapper
+The wrapper facilitates projects and tasks creation for tweets.
+Check out the test to see its usage.
