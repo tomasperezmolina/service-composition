@@ -1,2 +1,3 @@
-def run(input):
-    print(input)
+def run(e):
+    print(e)
+    return "done"

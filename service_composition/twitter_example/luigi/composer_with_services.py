@@ -4,7 +4,7 @@ import json
 import requests
 from multiprocessing import Pool
 
-from service_composition.composer import tasks
+from service_composition.composer import service
 
 class TwitterCrawler(luigi.Task):
     terms = luigi.ListParameter()
@@ -12,14 +12,14 @@ class TwitterCrawler(luigi.Task):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.task = tasks.PythonTask("service_composition.twitter_example.get_tweets")
+        self.service = service.PythonService("service_composition.twitter_example.get_tweets")
 
     def output(self):
         return luigi.LocalTarget(self.path)
 
     def run(self):
         with self.output().open('w') as out:
-            tweets = self.task.run()
+            tweets = self.service.run()
             for _, t in zip(range(1), tweets): 
                 out.write(json.dumps(t))
                 out.write('\n')
@@ -32,9 +32,9 @@ class Geolocate(luigi.Task):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.threads = 4
-        self.task = tasks.HTTPTask(
+        self.service = service.HTTPService(
             "http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json",
-            tasks.HTTPMethod.POST,
+            service.HTTPMethod.POST,
             auth=(self.user, self.password), 
             timeout=200,
             headers={'Content-Type': 'application/json'},
@@ -43,8 +43,8 @@ class Geolocate(luigi.Task):
     def f(self, t):
         print("sending request...")
         js = json.loads(t)
-        r = self.task.run(t)
-        js["cime_geo"] = json.loads(r)
+        # r = self.service.run(t)
+        js["cime_geo"] = "null"
         return js
 
     def run(self):
@@ -70,12 +70,12 @@ class PrintCrawled(luigi.WrapperTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.task = tasks.PythonTask("service_composition.twitter_example.print_it")
+        self.service = service.PythonService("service_composition.twitter_example.print_it")
 
     def run(self):
         with self.input().open() as tweets_file:
             for t in tweets_file:
-                self.task.run(t)
+                self.service.run(t)
 
     def requires(self):
         return Geolocate(id=self.id)

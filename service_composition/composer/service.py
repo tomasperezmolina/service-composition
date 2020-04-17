@@ -11,41 +11,41 @@ class HTTPMethod(Enum):
     PATCH = 'patch'
     DELETE = 'delete'
 
-class Task(ABC):
+class Service(ABC):
 
     @abstractmethod
-    def run(self, input=None):
+    def run(self, e=None):
         pass
 
-class HTTPTaskFailure(RuntimeError):
+class HTTPServiceFailure(RuntimeError):
     pass
 
-class HTTPTask(Task):
+class HTTPService(Service):
     def __init__(self, url: str, method: HTTPMethod, **kwargs):
         self.url = url
         self.method = method
         self.kwargs = kwargs
 
-    def run(self, input=None):
+    def run(self, e=None):
         res = requests.request(
             self.method.value,
             self.url,
-            data=input,
+            data=e,
             **self.kwargs
         )
         if res.ok:
             return res.text
         else:
-            raise HTTPTaskFailure(f"HTTP task (url={self.url}, method={self.method.value}) failed with status {res.status_code}: {res.text}")
+            raise HTTPServiceFailure(f"HTTP service (url={self.url}, method={self.method.value}) failed with status {res.status_code}: {res.text}")
 
-class InvalidPythonTask(RuntimeError):
+class InvalidPythonService(RuntimeError):
     pass
 
-class PythonTask(Task):
+class PythonService(Service):
     def __init__(self, module_name: str):
         self.module = importlib.import_module(module_name)
         if self.module.run is None:
-            raise InvalidPythonTask(f"Python module {module_name} does not have a top-level run function")
+            raise InvalidPythonService(f"Python module {module_name} does not have a top-level run function")
 
-    def run(self, input=None):
-        return self.module.run(input)
+    def run(self, e=None):
+        return self.module.run(e)
