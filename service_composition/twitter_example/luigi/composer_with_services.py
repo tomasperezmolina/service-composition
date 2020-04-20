@@ -5,6 +5,7 @@ import requests
 from multiprocessing import Pool
 
 from service_composition.composer import service
+from service_composition.pybossa.pybossa_wrapper import PybossaWrapper
 
 class TwitterCrawler(luigi.Task):
     terms = luigi.ListParameter()
@@ -66,6 +67,23 @@ class Geolocate(luigi.Task):
         return TwitterCrawler(path='output_files/twitter_results/{}/tweets.txt'.format(self.id), terms=[])
 
 class PrintCrawled(luigi.WrapperTask):
+    id = luigi.Parameter(default='test')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.service = service.PythonService("service_composition.twitter_example.print_it")
+
+    def run(self):
+        with self.input().open() as tweets_file:
+            for t in tweets_file:
+                self.service.run(t)
+
+    def requires(self):
+        return Geolocate(id=self.id)
+
+
+PYBOSSA_CONFIG_PATH="../../../config/pybossa_config.json"
+class ToPybossaProject(luigi.WrapperTask):
     id = luigi.Parameter(default='test')
 
     def __init__(self, *args, **kwargs):

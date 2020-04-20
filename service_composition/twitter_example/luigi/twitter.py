@@ -5,6 +5,8 @@ import requests
 from multiprocessing import Pool
 
 from ...twitter_example import get_tweets, print_it
+from service_composition.pybossa.pybossa_wrapper import PybossaWrapper
+
 
 class MakeDirectory(luigi.Task):
     path = luigi.Parameter()
@@ -90,6 +92,31 @@ class PrintCrawled(luigi.Task):
     def output(self):
         path = 'output_files/twitter_results/{}/done_deal.txt'.format(self.id)
         return luigi.LocalTarget(path)
+
+PYBOSSA_CONFIG_PATH="../config/pybossa_config.json"
+class ToPybossaProject(luigi.Task):
+    id = luigi.Parameter(default='test')
+
+    pybossa = None
+    with open(os.path.abspath(PYBOSSA_CONFIG_PATH), 'r') as config_f:
+        config = json.load(config_f)
+        pybossa = PybossaWrapper(config['endpoint'], config['apikey'])
+    project = pybossa.create_project('Test project name', 'Test project shortname', 'Test project description')
+
+    def run(self):
+        with open(self.input().path, 'r') as tweets_file:
+            for tweet in tweets_file:
+                pybossa.create_task(project.id, tweet)
+        with open(self.output().path, 'w') as out:
+            out.write("done")
+
+    def requires(self):
+        return Geolocate(id=self.id)
+
+    def output(self):
+        path = 'output_files/twitter_results/{}/done_deal.txt'.format(self.id)
+        return luigi.LocalTarget(path)
+
 
 if __name__ == '__main__':
    luigi.run()
