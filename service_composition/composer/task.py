@@ -1,6 +1,7 @@
 import luigi
 from multiprocessing import Pool
 from typing import List
+import json
 
 from service_composition.composer.service import Service
 
@@ -13,20 +14,19 @@ class Task(luigi.Task):
 
     def run(self):
         if not self.dependencies:
-            with self.output().open('w') as output_file:
-                results = self.service.run()
-                for r in results:
-                    output_file.write(r)
-                    output_file.write('\n')
+            results = self.service.run()
         else:
-            with self.input()[0].open() as input_file, self.output().open('w') as output_file:
+            with self.input()[0].open() as input_file:
                 if self.threads <= 1:
                     results = [self.service.run(t) for t in input_file]
                 else:
                     with Pool(self.threads) as p: 
                         results = p.map(self.service.run, input_file)
-                for r in results:
-                    output_file.write(r)
+        with self.output().open('w') as output_file:
+            for r in results:
+                if r:
+                    js = json.loads(r)
+                    output_file.write(json.dumps(js))
                     output_file.write('\n')
                
     def output(self):
