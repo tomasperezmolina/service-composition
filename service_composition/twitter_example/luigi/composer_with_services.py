@@ -21,8 +21,8 @@ class TwitterCrawler(luigi.Task):
     def run(self):
         with self.output().open('w') as out:
             tweets = self.service.run()
-            for _, t in zip(range(1), tweets): 
-                out.write(json.dumps(t))
+            for t in tweets: 
+                out.write(t)
                 out.write('\n')
 
 class Geolocate(luigi.Task):
@@ -44,8 +44,8 @@ class Geolocate(luigi.Task):
     def f(self, t):
         print("sending request...")
         js = json.loads(t)
-        # r = self.service.run(t)
-        js["cime_geo"] = "null"
+        r = self.service.run(t)
+        js["cime_geo"] = json.loads(r)
         return js
 
     def run(self):
@@ -58,7 +58,7 @@ class Geolocate(luigi.Task):
             for js in results:
                 output_file.write(json.dumps(js))
                 output_file.write('\n')
-        self.input().remove()
+        # self.input().remove()
                
     def output(self):
         return luigi.LocalTarget('output_files/twitter_results/{}/geolocated.txt'.format(self.id))

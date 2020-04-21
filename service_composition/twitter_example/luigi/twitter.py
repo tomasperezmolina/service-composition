@@ -19,7 +19,7 @@ class MakeDirectory(luigi.Task):
 
 class IAmUseless(luigi.Task):
     def output(self):
-        return luigi.LocalTarget("dummy")
+        return luigi.LocalTarget("output_files/twitter_results/dummy")
 
     def run(self):
         with open(self.output().path, 'w') as file:
@@ -33,12 +33,10 @@ class TwitterCrawler(luigi.Task):
         return luigi.LocalTarget(self.path)
 
     def run(self):
-        
-
         with open(self.output().path, 'w') as out:
-            tweets = get_tweets.run(None)
-            for i, t in zip(range(10), tweets): 
-                out.write(json.dumps(t))
+            tweets = get_tweets.run()
+            for t in tweets: 
+                out.write(t)
                 out.write('\n')
 
     def requires(self):
@@ -97,13 +95,14 @@ PYBOSSA_CONFIG_PATH="../config/pybossa_config.json"
 class ToPybossaProject(luigi.Task):
     id = luigi.Parameter(default='test')
 
-    pybossa = None
-    with open(os.path.abspath(PYBOSSA_CONFIG_PATH), 'r') as config_f:
-        config = json.load(config_f)
-        pybossa = PybossaWrapper(config['endpoint'], config['apikey'])
-        print(pybossa.get_projects())
-    pybossa.delete_all_projects() # For testing purposes
-    project = pybossa.create_project('Test project name', 'Test project shortname', 'Test project description', 'service_composition/pybossa/json_presenter.html')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        with open(os.path.abspath(PYBOSSA_CONFIG_PATH), 'r') as config_f:
+            config = json.load(config_f)
+            pybossa = PybossaWrapper(config['endpoint'], config['apikey'])
+            print(pybossa.get_projects())
+        pybossa.delete_all_projects() # For testing purposes
+        project = pybossa.create_project('Test project name', 'Test project shortname', 'Test project description', 'service_composition/pybossa/json_presenter.html')
 
     def run(self):
         with open(self.input().path, 'r') as tweets_file:
