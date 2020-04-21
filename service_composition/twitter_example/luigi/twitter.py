@@ -36,7 +36,7 @@ class TwitterCrawler(luigi.Task):
         
 
         with open(self.output().path, 'w') as out:
-            tweets = get_tweets.run()
+            tweets = get_tweets.run(None)
             for i, t in zip(range(10), tweets): 
                 out.write(json.dumps(t))
                 out.write('\n')
@@ -101,17 +101,20 @@ class ToPybossaProject(luigi.Task):
     with open(os.path.abspath(PYBOSSA_CONFIG_PATH), 'r') as config_f:
         config = json.load(config_f)
         pybossa = PybossaWrapper(config['endpoint'], config['apikey'])
-    project = pybossa.create_project('Test project name', 'Test project shortname', 'Test project description')
+        print(pybossa.get_projects())
+    pybossa.delete_all_projects() # For testing purposes
+    project = pybossa.create_project('Test project name', 'Test project shortname', 'Test project description', 'service_composition/pybossa/json_presenter.html')
 
     def run(self):
         with open(self.input().path, 'r') as tweets_file:
             for tweet in tweets_file:
-                pybossa.create_task(project.id, tweet)
+                self.pybossa.create_task(self.project.id, tweet)
         with open(self.output().path, 'w') as out:
             out.write("done")
 
     def requires(self):
-        return Geolocate(id=self.id)
+        return TwitterCrawler(path='output_files/twitter_results/{}/tweets.txt'.format(self.id), terms=[])
+        #return Geolocate(id=self.id)
 
     def output(self):
         path = 'output_files/twitter_results/{}/done_deal.txt'.format(self.id)

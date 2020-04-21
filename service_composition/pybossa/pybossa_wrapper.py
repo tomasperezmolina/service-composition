@@ -13,11 +13,11 @@ class PybossaWrapper:
         category = pbclient.create_category(name=name, description=description)
         return category
 
-    def create_project(self, name, shortname, description):
+    def create_project(self, name, shortname, description, presenter_path='json_presenter.html'):
         created = pbclient.create_project(name, shortname, description)
         project_id = created.id
         #replace the templates shortname with the actual shortname
-        task_presenter = open('json_presenter.html').read().replace('[[shortname]]', shortname)
+        task_presenter = open(presenter_path).read().replace('[[shortname]]', shortname)
         #task_presenter=None
         project = pbclient.Project(data=dict(id=project_id, info=dict(task_presenter=task_presenter)))
         result = pbclient.update_project(project)
