@@ -38,3 +38,10 @@ Twitter example but now instead of creating luigi tasks, the pipeline is describ
 ```bash
 $ python -m service_composition.twitter_example.luigi.composer_with_tasks $CIME_USERNAME $CIME_PASSWORD
 ```
+
+### Simple list map
+Simple example applying functions to a list of numbers.
+
+```bash
+$ python -m service_composition.composer_examples.simple_list_map
+```

@@ -49,3 +49,10 @@ class PythonService(Service):
 
     def run(self, e=None):
         return self.module.run(e)
+
+class FunctionService(Service):
+    def __init__(self, function):
+        self.function = function
+
+    def run(self, e=None):
+        return self.function(e)

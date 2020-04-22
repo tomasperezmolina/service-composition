@@ -2,6 +2,7 @@ import luigi
 import sys
 
 from service_composition.composer.task import Task
+from service_composition.composer.task import fromJSON
 from service_composition.composer import service
 
 if __name__ == '__main__':
@@ -15,6 +16,7 @@ if __name__ == '__main__':
         service=service.PythonService("service_composition.twitter_example.get_tweets"), 
         path='output_files/twitter_results/tweets', 
         name='crawler',
+        output_data_type_map=fromJSON,
     )
     geolocate = Task(
         service=service.HTTPService(
@@ -28,12 +30,14 @@ if __name__ == '__main__':
         dependencies=[crawler], 
         threads=4,
         name='geolocate',
+        output_data_type_map=fromJSON,
     )
     print_crawled = Task(
         service=service.PythonService("service_composition.twitter_example.print_it"), 
         name='print_crawled',
         path='output_files/twitter_results/done', 
         dependencies=[geolocate],
+        output_data_type_map=fromJSON,
     )
 
 
