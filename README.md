@@ -45,3 +45,11 @@ Simple example applying functions to a list of numbers.
 ```bash
 $ python -m service_composition.composer_examples.simple_list_map
 ```
+
+### Yaml parser
+Function that parses a yaml composer file into an array of ServiceData in the pipeline order.
+
+To test:
+```bash
+$ python test_yaml_parser.py
+```
