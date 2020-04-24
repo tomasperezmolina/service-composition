@@ -51,5 +51,5 @@ Function that parses a yaml composer file into an array of ServiceData in the pi
 
 To test:
 ```bash
-$ python test_yaml_parser.py
+service_composition/yaml_parser $ python test_yaml_parser.py
 ```
