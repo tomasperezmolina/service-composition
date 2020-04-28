@@ -135,59 +135,22 @@ def parse_composition(path, variables_dict, print_debug=False):
 
     return services
 
-'''
-def parse_composition2(path, print_debug=False):
-    if print_debug:
-        print('[YAML parser]:')
+
+def _get_variables(current, acc):
+    for key in current:
+        curr = current[key]
+        if isinstance(curr, dict):
+            _get_variables(curr, acc)
+        elif isinstance(curr, str) and curr[0] == '$':
+            name = curr[1:]
+            if not name in acc:
+                acc.append(name)
+        elif isinstance(curr, list) and isinstance(curr[0], dict):
+            _get_variables(_merge_list_to_dict(curr), acc)
+
+def get_variables(path):
     loaded = yaml.safe_load(open(path, 'r'))
+    acc = []
+    _get_variables(loaded, acc)
+    return acc
 
-    #get pipeline and services
-    if not ('pipeline' in loaded and 'services' in loaded):
-        raise Exception('The composer requires \"pipeline\" and \"services\" values')
-    pipeline = loaded['pipeline']
-    service_list = _merge_list_to_dict(loaded['services'])
-
-    #check if all services in the pipeline are specified
-    for name in pipeline:
-        if not name in service_list:
-            raise Exception('Service {} is undeclared'.format(name))
-
-    #parse services
-    services = []
-    res = None
-    for name in pipeline:
-        args = service_list[name]
-        if not 'type' in args:
-            raise Exception('Service requires a \"type\" value')
-        type = args['type']
-        extra_args = None
-        if 'args' in args:
-            extra_args = _merge_list_to_dict(args['args'])
-        if(type == 'HTTP'):
-            if not ('url' in args and 'method' in args):
-                raise Exception('HTTP service requires \"url\" and \"method\" values')
-
-            url = args['url']
-            method = args['method']
-            auth = None
-            if 'auth' in args:
-                auth = _merge_list_to_dict(args['auth'])
-            res = HTTPServiceData(name, url, method, auth, extra_args)
-
-        elif(type == 'python'):
-            if not 'file' in args:
-                raise Exception('Python service requires a \"file\" value')
-            file = args['file']
-            res = PythonServiceData(name, file, extra_args)
-
-        else:
-            res = ServiceData(name, extra_args)
-
-        services.append(res)
-        if print_debug:
-            print(res)
-
-    return services
-
-
-'''
