@@ -11,30 +11,33 @@ class Task(luigi.Task):
 
     service = luigi.Parameter(significant=False)
     path = luigi.Parameter(significant=False)
-    '''
+    
+    """
     Task dependencies that function as input for this task.
-
-    TODO: each dependency should come with a mapping function to map the output of the dependency to the input this task needs.
-    Or should there be a single mapping function gathering all inputs? In that case after the mapping we get an item that can be fed directly into the task's service.
-    '''
+    """
     dependencies = luigi.Parameter(default=[], significant=False)
 
-    '''
+    """
     Transform the output of the task into the intermediate representation (IR) used by all tasks. 
     For example a task may return XML or JSON, these need to be transformed into the IR so the next task can access it.
-    '''
+    """
     output_data_type_map = luigi.Parameter(significant=False) 
+
+    """
+    How to transform the inputs of the task into a data structure that is fed into the service
+    """
+    input_map = luigi.Parameter(significant=False, default=lambda x: x)
 
     def run(self):
         if not self.dependencies:
             results = self.service.run()
         else:
-            with self.input()[0].open() as input_file:
-                if self.threads <= 1:
-                    results = [self.service.run(t) for t in input_file]
-                else:
-                    with Pool(self.threads) as p: 
-                        results = p.map(self.service.run, input_file)
+            input_file = self.aggregate_inputs()
+            if self.threads <= 1:
+                results = [self.service.run(self.input_map(t)) for t in input_file]
+            else:
+                with Pool(self.threads) as p: 
+                    results = p.map(self.service.run, list(map(self.input_map, input_file)))
         with self.output().open('w') as output_file:
             for r in results:
                 if r is not None:
@@ -46,6 +49,23 @@ class Task(luigi.Task):
 
     def requires(self):
         return self.dependencies
+
+    def aggregate_inputs(self):
+        task_inputs = {}
+        for target, task in zip(self.input(), self.requires()):
+            with target.open() as input_file:
+                inputs = []
+                for i in input_file:
+                    inputs.append(json.loads(i))
+                task_inputs[task.name] = inputs
+        input_size = len(task_inputs[list(task_inputs.keys())[0]])
+        result = []
+        for i in range(input_size):
+            item = {}
+            for k in task_inputs.keys():
+                item[k] = task_inputs[k][i]
+            result.append(item)
+        return result
 
 # For now the IR is JSON, it could be optimized by using another representation
 

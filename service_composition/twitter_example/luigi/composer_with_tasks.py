@@ -1,5 +1,6 @@
 import luigi
 import sys
+import json
 
 from service_composition.composer.task import Task
 from service_composition.composer.task import fromJSON
@@ -31,6 +32,7 @@ if __name__ == '__main__':
         threads=4,
         name='geolocate',
         output_data_type_map=fromJSON,
+        input_map=lambda x: json.dumps(x["crawler"]),
     )
     print_crawled = Task(
         service=service.PythonService("service_composition.twitter_example.print_it"), 
