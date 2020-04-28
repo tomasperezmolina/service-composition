@@ -53,3 +53,16 @@ To test:
 ```bash
 service_composition/yaml_parser $ python test_yaml_parser.py
 ```
+
+### Command line parser 
+Parse command line arguments, reading a composer file along with values for the variables specified in the file with "$".
+Help argument (-h, --help) is available to see how it works.
+
+```bash
+$ python -m service_composition.arg_parser.arg_parser
+```
+
+To run it with the test yaml file:
+```bash
+$ python -m service_composition.arg_parser.arg_parser .\service_composition\yaml_parser\test_composer.yaml
+```

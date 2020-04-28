@@ -1,3 +1,0 @@
-argA
-argB
-argC
