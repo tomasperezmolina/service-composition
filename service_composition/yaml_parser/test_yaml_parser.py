@@ -1,6 +1,6 @@
 from yaml_parser import parse_composition, ServiceType
 
-services = parse_composition('test_composer.yaml', print_debug=True)
+services = parse_composition('test_composer.yaml', {'PYFILE': 'get_tweets.py', 'ARG2': 7, 'USERNAME': 'myuser'}, print_debug=True)
 
 crawler = services[0]
 geolocation = services[1]

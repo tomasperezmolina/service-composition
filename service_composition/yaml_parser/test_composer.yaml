@@ -5,10 +5,10 @@ pipeline:
 services:
     - TwitterCrawler:
         type: python
-        file: get_tweets.py
+        file: $PYFILE
         args: 
             - arg1: 'hi'
-            - arg2: 1
+            - arg2: $ARG2
             - arg3: 2
     - Geolocation:
         type: HTTP
