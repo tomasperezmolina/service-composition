@@ -116,6 +116,8 @@ def parse_composition(path, variables_dict, print_debug=False):
             auth = None
             if 'auth' in args:
                 auth = _merge_list_to_dict(args['auth'])
+                for _arg in auth:
+                    auth[_arg] = _check_var_arg(auth[_arg], variables_dict)
             res = HTTPServiceData(name, url, method, auth, extra_args)
 
         elif(type == 'python'):

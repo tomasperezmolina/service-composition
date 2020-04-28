@@ -10,8 +10,8 @@ assert(crawler.type == ServiceType.PYTHON)
 assert(crawler.name == 'TwitterCrawler')
 assert(crawler.file == 'get_tweets.py')
 
-assert(geolocation.type == ServiceType.HTTP)
-assert(geolocation.name == 'Geolocation')
+assert(geolocation.type   == ServiceType.HTTP)
+assert(geolocation.name   == 'Geolocation')
 assert(geolocation.method == 'POST')
 
 assert(printer.type == ServiceType.PYTHON)
