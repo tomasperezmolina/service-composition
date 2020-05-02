@@ -66,3 +66,11 @@ To run it with the test yaml file:
 ```bash
 $ python -m service_composition.arg_parser.arg_parser .\service_composition\yaml_parser\test_composer.yaml
 ```
+
+### Composer
+Read a yaml pipeline configuration file from the commandline, along with the arguments specified in it.
+Then, run a luigi pipeline based on that configuration.
+
+```
+$ python -m service_composition.arg_parser.arg_parser .\data\composer\test_composer.yaml -USERNAME $CIME_USERNAME -PASSWORD $CIME_PASSWORD
+```
