@@ -20,20 +20,41 @@ def _merge_list_to_dict(lst):
         result.update(e)
     return result
 
+def _pipeline_names(pipeline):
+    res = []
+    for s in pipeline:
+        if isinstance(s, str):
+            res.append(s)
+        elif isinstance(s, dict):
+            res.append(list(s.keys())[0])
+        else:
+            raise RuntimeError(f"Parsed service as a {type(s)}, unrecognized type")
+    return res
+
+def _pipeline_connection_args(pipeline, i):
+    s = pipeline[i]
+    if isinstance(s, str):
+        return dict()
+    elif isinstance(s, dict):
+        return s[list(s.keys())[0]]
+    else:
+        raise RuntimeError(f"Parsed service as a {type(s)}, unrecognized type")
+
 class ServiceType(Enum):
     PYTHON = 'python'
     HTTP   = 'HTTP'
     OTHER  = 'other'
 
 class ServiceData:
-    def __init__(self, name, threads, extra_args, type: ServiceType=ServiceType.OTHER):
+    def __init__(self, name, threads, connection_args, extra_args, type: ServiceType=ServiceType.OTHER):
         self.name = name
         self.threads = threads
+        self.connection_args = connection_args
         self.extra_args = extra_args
         self.type = type
 
     def __str__(self):
-        return 'Service: {}\n\ttype: {}\n\tthreads: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.extra_args)
+        return 'Service: {}\n\ttype: {}\n\tthreads: {}\n\tconnection_args: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.connection_args, self.extra_args)
 
 ''' Example:
 services:
@@ -45,12 +66,12 @@ services:
             - arg2 = 3
 '''
 class PythonServiceData(ServiceData):
-    def __init__(self, name, threads, file, extra_args):
-        super().__init__(name, threads, extra_args, ServiceType.PYTHON)
+    def __init__(self, name, threads, file, connection_args, extra_args):
+        super().__init__(name, threads, connection_args, extra_args, ServiceType.PYTHON)
         self.file = file
 
     def __str__(self):
-        return 'Python Service: {}\n\ttype: {}\n\tthreads: {}\n\tfile: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.file, self.extra_args)
+        return 'Python Service: {}\n\ttype: {}\n\tthreads: {}\n\tfile: {}\n\tconnection_args: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.file, self.connection_args, self.extra_args)
 
 ''' Example:
 services:
@@ -66,15 +87,15 @@ services:
             - arg2 = 3
 '''
 class HTTPServiceData(ServiceData):
-    def __init__(self, name, threads, url, method, auth, content_type, extra_args):
-        super().__init__(name, threads, extra_args, ServiceType.HTTP)
+    def __init__(self, name, threads, url, method, auth, content_type, connection_args, extra_args):
+        super().__init__(name, threads, connection_args, extra_args, ServiceType.HTTP)
         self.url = url
         self.method = method 
         self.auth = auth
         self.content_type = content_type
 
     def __str__(self):
-        return 'HTTP Service: {}\n\ttype: {}\n\tthreads: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\tcontent_type: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.url, self.method, self.auth, self.content_type, self.extra_args)
+        return 'HTTP Service: {}\n\ttype: {}\n\tthreads: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\tcontent_type: {}\n\tconnection_args: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.url, self.method, self.auth, self.content_type, self.connection_args, self.extra_args)
 
 '''
 Returns an array of ServiceData objects in pipeline order
@@ -90,27 +111,31 @@ def parse_composition(path, variables_dict, print_debug=False):
     pipeline = loaded['pipeline']
     service_list = _merge_list_to_dict(loaded['services'])
 
+    service_names = _pipeline_names(pipeline)
+
     #check if all services in the pipeline are specified
-    for name in pipeline:
+    for name in service_names:
         if not name in service_list:
             raise Exception('Service {} is undeclared'.format(name))
 
     #parse services
     services = []
     res = None
-    for name in pipeline:
+    for (i, name) in enumerate(service_names):
         args = service_list[name]
 
         if not 'type' in args:
             raise Exception('Service requires a \"type\" value')
         type = _check_var_arg(args['type'], variables_dict)
-        
+
         if not 'threads' in args:
             threads = 1
         else:
             threads = _check_var_arg(args['threads'], variables_dict)
 
-        extra_args = None
+        connection_args = _pipeline_connection_args(pipeline, i)
+
+        extra_args = dict()
         if 'args' in args:
             extra_args = _merge_list_to_dict(args['args'])
             for _arg in extra_args:
@@ -127,16 +152,16 @@ def parse_composition(path, variables_dict, print_debug=False):
                 auth = _merge_list_to_dict(args['auth'])
                 for _arg in auth:
                     auth[_arg] = _check_var_arg(auth[_arg], variables_dict)
-            res = HTTPServiceData(name, threads, url, method, auth, content_type, extra_args)
+            res = HTTPServiceData(name, threads, url, method, auth, content_type, connection_args, extra_args)
 
         elif type == 'python':
             if not 'file' in args:
                 raise Exception('Python service requires a \"file\" value')
             file = _check_var_arg(args['file'], variables_dict)
-            res = PythonServiceData(name, threads, file, extra_args)
+            res = PythonServiceData(name, threads, file, connection_args, extra_args)
 
         else:
-            res = ServiceData(name, threads, extra_args)
+            res = ServiceData(name, threads, connection_args, extra_args)
 
         services.append(res)
         if print_debug:

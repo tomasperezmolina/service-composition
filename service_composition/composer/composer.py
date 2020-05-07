@@ -50,7 +50,7 @@ if __name__ == "__main__":
     current_task = None
     
     for s in composition:
-        
+
         if s.type == yaml_parser.ServiceType.HTTP:
             service = HTTPService(
                 s.url,
@@ -78,6 +78,9 @@ if __name__ == "__main__":
             output_data_type_map=fromJSON,
             dependencies=[current_task] if current_task is not None else [],
             input_map=flatten,
+            include_previous_data=s.connection_args.get("include-previous", False)
         )
 
     luigi.build([current_task])
+
+    print(f"RUN ID: {run_id}")

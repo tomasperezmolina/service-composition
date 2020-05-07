@@ -28,20 +28,31 @@ class Task(luigi.Task):
     """
     input_map = luigi.Parameter(significant=False, default=lambda x: x)
 
+    """
+    Include data fed as input in the output of this task
+    """
+    include_previous_data = luigi.BoolParameter(significant=False, default=False)
+
     def run(self):
         if not self.dependencies:
-            results = self.service.run()
+            results = map(self.to_IR, self.service.run())
         else:
             input_file = self.aggregate_inputs()
+            adapted_inputs = map(self.input_map, input_file)
             if self.threads <= 1:
-                results = [self.service.run(self.input_map(t)) for t in input_file]
+                service_outputs = [self.service.run(t) for t in adapted_inputs]
             else:
                 with Pool(self.threads) as p: 
-                    results = p.map(self.service.run, list(map(self.input_map, input_file)))
+                    service_outputs = p.map(self.service.run, adapted_inputs)
+            ir_outputs = list(map(self.to_IR, service_outputs))
+            if self.include_previous_data:
+                for (i, o) in zip(input_file, ir_outputs):
+                    o["__input__"] = i
+            results = ir_outputs
         with self.output().open('w') as output_file:
             for r in results:
                 if r is not None:
-                    output_file.write(self.output_data_type_map(r))
+                    output_file.write(json.dumps(r))
                     output_file.write('\n')
                
     def output(self):
@@ -67,11 +78,17 @@ class Task(luigi.Task):
             result.append(item)
         return result
 
-# For now the IR is JSON, it could be optimized by using another representation
+    def to_IR(self, e):
+        if e is None:
+            return None
+        else:
+            return self.output_data_type_map(e)
+
+# For now the IR is a dict, it could be optimized by using another representation
 
 def fromJSON(e):
     # Minimizes the json string
-    return json.dumps(json.loads(e))
+    return json.loads(e)
 
 def fromDict(e):
-    return json.dumps(e)
+    return e
