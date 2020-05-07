@@ -5,8 +5,6 @@ workspace.xml
 
 # Created by https://www.gitignore.io
 
-data/
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
