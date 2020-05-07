@@ -21,16 +21,17 @@ class HTTPServiceFailure(RuntimeError):
     pass
 
 class HTTPService(Service):
-    def __init__(self, url: str, method: HTTPMethod, **kwargs):
+    def __init__(self, url: str, method: HTTPMethod, serializer, **kwargs):
         self.url = url
         self.method = method
+        self.serializer = serializer
         self.kwargs = kwargs
 
     def run(self, e=None):
         res = requests.request(
             self.method.value,
             self.url,
-            data=e,
+            data=self.serializer(e),
             **self.kwargs
         )
         if res.ok:

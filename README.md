@@ -72,5 +72,5 @@ Read a yaml pipeline configuration file from the commandline, along with the arg
 Then, run a luigi pipeline based on that configuration.
 
 ```
-$ python -m service_composition.arg_parser.arg_parser .\data\composer\test_composer.yaml -USERNAME $CIME_USERNAME -PASSWORD $CIME_PASSWORD
+$ python -m service_composition.composer.composer .\data\composer\test_composer.yaml -USERNAME $CIME_USERNAME -PASSWORD $CIME_PASSWORD
 ```

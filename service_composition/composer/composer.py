@@ -2,12 +2,31 @@ import argparse
 import luigi
 import sys
 import json
+import uuid
 
 from service_composition.composer.task import Task, fromJSON
 from service_composition.composer.service import HTTPService, HTTPMethod, PythonService
 from service_composition.yaml_parser import yaml_parser
 
+def serializer_for_content_type(content_type):
+    if content_type is None:
+        return lambda x: x
+    if content_type == 'json':
+        return json.dumps
+    else:
+        raise RuntimeError(f"Unknown content-type {content_type}")
+
+def header_for_content_type(content_type):
+    if content_type is None:
+        return 'text/plain'
+    if content_type == 'json':
+        return 'application/json'
+    else:
+        raise RuntimeError(f"Unknown content-type {content_type}")
+
 if __name__ == "__main__":
+    run_id = uuid.uuid4()
+
     argfile_parser = argparse.ArgumentParser(add_help=False)
     argfile_parser.add_argument('composer_file', nargs='?')
 
@@ -31,28 +50,34 @@ if __name__ == "__main__":
     current_task = None
     
     for s in composition:
+        
         if s.type == yaml_parser.ServiceType.HTTP:
             service = HTTPService(
                 s.url,
                 HTTPMethod(s.method),
+                serializer=serializer_for_content_type(s.content_type),
                 auth=(s.auth["user"], s.auth["password"]),
-                timeout=200,
-                headers={'Content-Type': 'application/json'},
+                headers={'Content-Type': header_for_content_type(s.content_type)},
+                **s.extra_args,
             )
         elif s.type == yaml_parser.ServiceType.PYTHON:
             service = PythonService(s.file)
         else:
             raise RuntimeError(f"Service type {s.type} is not recognized!")
+
         if current_task is not None:
-            dump_lambda = (lambda y: lambda x: json.dumps(x[y]))(current_task.name)
-        id_lambda = lambda x: x
+            flatten = (lambda y: lambda x: x[y])(current_task.name)
+        else:
+            flatten = lambda x: x
+
         current_task = Task(
             service=service,
-            path=f'output_files/results/{s.name}',
+            path=f'output_files/results/{run_id}/{s.name}',
             name=s.name,
+            threads=s.threads,
             output_data_type_map=fromJSON,
             dependencies=[current_task] if current_task is not None else [],
-            input_map=dump_lambda if s.type == yaml_parser.ServiceType.HTTP else id_lambda,
+            input_map=flatten,
         )
 
     luigi.build([current_task])

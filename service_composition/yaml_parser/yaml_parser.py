@@ -26,13 +26,14 @@ class ServiceType(Enum):
     OTHER  = 'other'
 
 class ServiceData:
-    def __init__(self, name, extra_args, type: ServiceType=ServiceType.OTHER):
+    def __init__(self, name, threads, extra_args, type: ServiceType=ServiceType.OTHER):
         self.name = name
+        self.threads = threads
         self.extra_args = extra_args
         self.type = type
 
     def __str__(self):
-        return 'Service: {}\n\ttype: {}\n\textra_args: {}'.format(self.name, self.type, self.extra_args)
+        return 'Service: {}\n\ttype: {}\n\tthreads: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.extra_args)
 
 ''' Example:
 services:
@@ -44,12 +45,12 @@ services:
             - arg2 = 3
 '''
 class PythonServiceData(ServiceData):
-    def __init__(self, name, file, extra_args):
-        super().__init__(name, extra_args, ServiceType.PYTHON)
+    def __init__(self, name, threads, file, extra_args):
+        super().__init__(name, threads, extra_args, ServiceType.PYTHON)
         self.file = file
 
     def __str__(self):
-        return 'Python Service: {}\n\ttype: {}\n\tfile: {}\n\textra_args: {}'.format(self.name, self.type, self.file, self.extra_args)
+        return 'Python Service: {}\n\ttype: {}\n\tthreads: {}\n\tfile: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.file, self.extra_args)
 
 ''' Example:
 services:
@@ -65,14 +66,15 @@ services:
             - arg2 = 3
 '''
 class HTTPServiceData(ServiceData):
-    def __init__(self, name, url, method, auth, extra_args):
-        super().__init__(name, extra_args, ServiceType.HTTP)
+    def __init__(self, name, threads, url, method, auth, content_type, extra_args):
+        super().__init__(name, threads, extra_args, ServiceType.HTTP)
         self.url = url
         self.method = method 
         self.auth = auth
+        self.content_type = content_type
 
     def __str__(self):
-        return 'HTTP Service: {}\n\ttype: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\textra_args: {}'.format(self.name, self.type, self.url, self.method, self.auth, self.extra_args)
+        return 'HTTP Service: {}\n\ttype: {}\n\tthreads: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\tcontent_type: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.url, self.method, self.auth, self.content_type, self.extra_args)
 
 '''
 Returns an array of ServiceData objects in pipeline order
@@ -102,32 +104,39 @@ def parse_composition(path, variables_dict, print_debug=False):
         if not 'type' in args:
             raise Exception('Service requires a \"type\" value')
         type = _check_var_arg(args['type'], variables_dict)
+        
+        if not 'threads' in args:
+            threads = 1
+        else:
+            threads = _check_var_arg(args['threads'], variables_dict)
+
         extra_args = None
         if 'args' in args:
             extra_args = _merge_list_to_dict(args['args'])
             for _arg in extra_args:
                 extra_args[_arg] = _check_var_arg(extra_args[_arg], variables_dict)
-        if(type == 'HTTP'):
+        if type == 'HTTP':
             if not ('url' in args and 'method' in args):
                 raise Exception('HTTP service requires \"url\" and \"method\" values')
 
             url = _check_var_arg(args['url'], variables_dict)
             method = _check_var_arg(args['method'], variables_dict)
+            content_type = _check_var_arg(args['content-type'], variables_dict)
             auth = None
             if 'auth' in args:
                 auth = _merge_list_to_dict(args['auth'])
                 for _arg in auth:
                     auth[_arg] = _check_var_arg(auth[_arg], variables_dict)
-            res = HTTPServiceData(name, url, method, auth, extra_args)
+            res = HTTPServiceData(name, threads, url, method, auth, content_type, extra_args)
 
-        elif(type == 'python'):
+        elif type == 'python':
             if not 'file' in args:
                 raise Exception('Python service requires a \"file\" value')
             file = _check_var_arg(args['file'], variables_dict)
-            res = PythonServiceData(name, file, extra_args)
+            res = PythonServiceData(name, threads, file, extra_args)
 
         else:
-            res = ServiceData(name, extra_args)
+            res = ServiceData(name, threads, extra_args)
 
         services.append(res)
         if print_debug:
