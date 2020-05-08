@@ -13,37 +13,44 @@ $ luigid
 ```
 The following commands assume that the environment is setup correctly
 
-## Workflows
+## Run Composer
+Add -h, --help to show help about parameters
+
+```bash
+$ python -m service_composition.composer.composer
+```
+
+## Demo Workflows
 ### Luigi Hello world
 ```bash
-$ cd service_composition/hello_world
+$ cd service_composition/demos/hello_world
 $ python hello_world.py HelloWorldTask
 ```
 
 ### Twitter example
 ```bash
-$ python -m service_composition.twitter_example.luigi.twitter PrintCrawled --Geolocate-user=$CIME_USERNAME --Geolocate-password=$CIME_PASSWORD
+$ python -m service_composition.demos.twitter_example.luigi.twitter PrintCrawled --Geolocate-user=$CIME_USERNAME --Geolocate-password=$CIME_PASSWORD
 ```
 
 ### Service Composer with services
 Twitter example but services objects that abstract each type of service are used instead of the actual code to run each one.
 
 ```bash
-$ python -m service_composition.twitter_example.luigi.composer_with_services PrintCrawled --Geolocate-user=$CIME_USERNAME --Geolocate-password=$CIME_PASSWORD
+$ python -m service_composition.demos.twitter_example.luigi.composer_with_services PrintCrawled --Geolocate-user=$CIME_USERNAME --Geolocate-password=$CIME_PASSWORD
 ```
 
 ### Service Composer with tasks
 Twitter example but now instead of creating luigi tasks, the pipeline is described with Task objects that run each service and are chained via array of dependencies.
 
 ```bash
-$ python -m service_composition.twitter_example.luigi.composer_with_tasks $CIME_USERNAME $CIME_PASSWORD
+$ python -m service_composition.demos.twitter_example.luigi.composer_with_tasks $CIME_USERNAME $CIME_PASSWORD
 ```
 
 ### Simple list map
 Simple example applying functions to a list of numbers.
 
 ```bash
-$ python -m service_composition.composer_examples.simple_list_map
+$ python -m service_composition.demos.composer_examples.simple_list_map
 ```
 
 ### Yaml parser
@@ -59,12 +66,12 @@ Parse command line arguments, reading a composer file along with values for the 
 Help argument (-h, --help) is available to see how it works.
 
 ```bash
-$ python -m service_composition.arg_parser.arg_parser
+$ python -m service_composition.demos.arg_parser.arg_parser
 ```
 
 To run it with the test yaml file:
 ```bash
-$ python -m service_composition.arg_parser.arg_parser .\service_composition\yaml_parser\test_composer.yaml
+$ python -m service_composition.demos.arg_parser.arg_parser .\service_composition\yaml_parser\test_composer.yaml
 ```
 
 ### Composer
