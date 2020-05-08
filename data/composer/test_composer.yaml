@@ -4,6 +4,12 @@ pipeline:
     #     include-previous: true
     - GetText:
         include-previous: true
+        translator:
+            exclusive: True #Turn on exclusive translation function
+            schema:
+                text: 'tweet_text'
+                username: 'tweet_username'
+                date: 'tweet_date'
     - Print
 services:
     - TwitterCrawler:

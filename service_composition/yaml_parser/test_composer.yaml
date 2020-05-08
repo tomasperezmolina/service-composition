@@ -1,6 +1,12 @@
 pipeline:
     - TwitterCrawler
-    - Geolocation
+    - Geolocation:
+        translator:
+            exclusive: True #Turn on exclusive translation function
+            schema:
+                text: 'tweet_text'
+                username: 'tweet_username'
+                date: 'tweet_date'
     - Print
 services:
     - TwitterCrawler:
@@ -21,11 +27,6 @@ services:
         args: 
             - arg1: 'hello'
             - arg2: 2
-        translator-exclusive: True #Turn on exclusive translation function
-        translator:
-            - text: 'tweet_text'
-            - username: 'tweet_username'
-            - date: 'tweet_date'
     - Print:
         type: python
         file: print_it.py
