@@ -3,10 +3,12 @@ import luigi
 import sys
 import json
 import uuid
+import functools
 
 from service_composition.composer.task import Task, fromJSON
 from service_composition.composer.service import HTTPService, HTTPMethod, PythonService
 from service_composition.yaml_parser import yaml_parser
+from service_composition.translator.translator import translate_item
 
 def serializer_for_content_type(content_type):
     if content_type is None:
@@ -23,6 +25,13 @@ def header_for_content_type(content_type):
         return 'application/json'
     else:
         raise RuntimeError(f"Unknown content-type {content_type}")
+
+def build_translator(config):
+    return functools.partial(
+        translate_item, 
+        translator=config.get('schema', None), 
+        exclusive=config.get('exclusive', False),
+    )
 
 if __name__ == "__main__":
     run_id = uuid.uuid4()
@@ -66,9 +75,14 @@ if __name__ == "__main__":
             raise RuntimeError(f"Service type {s.type} is not recognized!")
 
         if current_task is not None:
-            flatten = (lambda y: lambda x: x[y])(current_task.name)
+            translator_config = s.connection_args.get('translator', dict())
+            input_map = functools.partial(
+                lambda item, translator, name: translator(item[name]), 
+                translator=build_translator(translator_config), 
+                name=current_task.name,
+            )
         else:
-            flatten = lambda x: x
+            input_map = lambda x: x
 
         current_task = Task(
             service=service,
@@ -77,7 +91,7 @@ if __name__ == "__main__":
             threads=s.threads,
             output_data_type_map=fromJSON,
             dependencies=[current_task] if current_task is not None else [],
-            input_map=flatten,
+            input_map=input_map,
             include_previous_data=s.connection_args.get("include-previous", False)
         )
 

@@ -1,5 +1,21 @@
 import json
 
+def translate_item(item, translator = None, exclusive = False, print_debug = False):
+    if translator is None:
+        return item
+    translated = dict()
+    for source in item:
+        if source in translator:
+            target = translator[source]
+            if (print_debug):
+                print("translating: {} [{}] to {}".format(source, item[source], target))
+            translated[target] = item[source]
+        elif not exclusive:
+            if (print_debug):
+                print("copying: {} [{}]".format(source, item[source]))
+            translated[source] = item[source]
+    return translated
+
 '''
 Generator that translates jsons read from input file.
 input: input file path.
@@ -8,24 +24,13 @@ exclusive: translate only the fields specified by the translator. Ignored if no 
 '''
 def translate(input_path, translator = None, exclusive = False, print_debug = False):
     with open(input_path, 'r') as file:
-        if(translator == None):
+        if translator is None:
             for line in file:
                 yield json.loads(line)
         else:
             for line in file:
-                translated = dict()
                 current = json.loads(line)
-                for source in current:
-                    if source in translator:
-                        target = translator[source]
-                        if (print_debug):
-                            print("translating: {} [{}] to {}".format(source, current[source], target))
-                        translated[target] = current[source]
-                    elif(not exclusive):
-                        if (print_debug):
-                            print("copying: {} [{}]".format(source, current[source]))
-                        translated[source] = current[source]
-                yield translated
+                yield translate_item(current, translator=translator, exclusive=exclusive, print_debug=print_debug)
 
 '''
 Translates the entire file and returns an array.
