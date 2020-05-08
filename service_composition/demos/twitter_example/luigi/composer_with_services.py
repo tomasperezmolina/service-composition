@@ -13,7 +13,7 @@ class TwitterCrawler(luigi.Task):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.service = service.PythonService("service_composition.twitter_example.get_tweets")
+        self.service = service.PythonService("service_composition.python_services.get_tweets")
 
     def output(self):
         return luigi.LocalTarget(self.path)
@@ -71,7 +71,7 @@ class PrintCrawled(luigi.WrapperTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.service = service.PythonService("service_composition.twitter_example.print_it")
+        self.service = service.PythonService("service_composition.python_services.print_it")
 
     def run(self):
         with self.input().open() as tweets_file:
@@ -88,7 +88,7 @@ class ToPybossaProject(luigi.WrapperTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.service = service.PythonService("service_composition.twitter_example.print_it")
+        self.service = service.PythonService("service_composition.python_services.print_it")
 
     def run(self):
         with self.input().open() as tweets_file:

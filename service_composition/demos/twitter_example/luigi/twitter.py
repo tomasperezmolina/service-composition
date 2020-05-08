@@ -4,7 +4,7 @@ import json
 import requests
 from multiprocessing import Pool
 
-from ...twitter_example import get_tweets, print_it
+from service_composition.python_services import get_tweets, print_it
 from service_composition.pybossa.pybossa_wrapper import PybossaWrapper
 
 

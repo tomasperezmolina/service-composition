@@ -14,7 +14,7 @@ if __name__ == '__main__':
     password = sys.argv[2]
 
     crawler = Task(
-        service=service.PythonService("service_composition.twitter_example.get_tweets"), 
+        service=service.PythonService("service_composition.python_services.get_tweets"), 
         path='output_files/twitter_results/tweets', 
         name='crawler',
         output_data_type_map=fromJSON,
@@ -35,7 +35,7 @@ if __name__ == '__main__':
         input_map=lambda x: json.dumps(x["crawler"]),
     )
     print_crawled = Task(
-        service=service.PythonService("service_composition.twitter_example.print_it"), 
+        service=service.PythonService("service_composition.python_services.print_it"), 
         name='print_crawled',
         path='output_files/twitter_results/done', 
         dependencies=[geolocate],

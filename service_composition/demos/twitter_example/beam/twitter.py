@@ -4,7 +4,7 @@ from apache_beam.runners.portability.fn_api_runner import FnApiRunner
 import requests
 import json
 
-from ...twitter_example import get_tweets, print_it
+from service_composition.python_services import get_tweets, print_it
 
 class Geolocate(beam.DoFn):
     def process(self, js):

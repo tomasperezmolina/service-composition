@@ -13,7 +13,7 @@ pipeline:
 services:
     - TwitterCrawler:
         type: python
-        file: service_composition.twitter_example.get_tweets
+        file: service_composition.python_services.get_tweets
     - Geolocation:
         type: HTTP
         threads: 4
@@ -28,7 +28,7 @@ services:
             - timeout: 200
     - GetText:
         type: python
-        file: service_composition.twitter_example.get_text
+        file: service_composition.python_services.get_text
     - Print:
         type: python
-        file: service_composition.twitter_example.print_it
+        file: service_composition.python_services.print_it
