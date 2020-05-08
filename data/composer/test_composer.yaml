@@ -1,26 +1,26 @@
 pipeline:
     - TwitterCrawler
-    - Geolocation:
-        include-previous: true
-    # - GetText:
+    # - Geolocation:
     #     include-previous: true
+    - GetText:
+        include-previous: true
     - Print
 services:
     - TwitterCrawler:
         type: python
         file: service_composition.twitter_example.get_tweets
-    - Geolocation:
-        type: HTTP
-        threads: 4
-        url: http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json
-        method: post
-        content-type: json
-        auth:
-            - type: BASIC
-            - user: $USERNAME
-            - password: $PASSWORD
-        args:
-            - timeout: 200
+    # - Geolocation:
+    #     type: HTTP
+    #     threads: 4
+    #     url: http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json
+    #     method: post
+    #     content-type: json
+    #     auth:
+    #         - type: BASIC
+    #         - user: $USERNAME
+    #         - password: $PASSWORD
+    #     args:
+    #         - timeout: 200
     - GetText:
         type: python
         file: service_composition.twitter_example.get_text
