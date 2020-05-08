@@ -1,0 +1,2 @@
+{"name": "my name", "color": "blue", "number": 123, "object": { "a": "b", "c": "d" }, "string": "Hello"}
+{"name": "my name2", "color": "black", "number": 321, "object": { "a": "s", "c": "x" }, "string": "Bye"}

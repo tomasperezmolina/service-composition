@@ -26,13 +26,15 @@ class ServiceType(Enum):
     OTHER  = 'other'
 
 class ServiceData:
-    def __init__(self, name, extra_args, type: ServiceType=ServiceType.OTHER):
+    def __init__(self, name, extra_args, type: ServiceType=ServiceType.OTHER, translator = None, translator_exclusive = False):
         self.name = name
         self.extra_args = extra_args
         self.type = type
+        self.translator = translator
+        self.translator_exclusive = translator_exclusive
 
     def __str__(self):
-        return 'Service: {}\n\ttype: {}\n\textra_args: {}'.format(self.name, self.type, self.extra_args)
+        return 'Service: {}\n\ttype: {}\n\textra_args: {}\n\ttranslator (ex: {}): {}'.format(self.name, self.type, self.extra_args, self.translator_exclusive, self.translator)
 
 ''' Example:
 services:
@@ -42,14 +44,17 @@ services:
         args:
             - arg1 = 'hello'
             - arg2 = 3
+        translator:
+            - arg1: var1
+            - arg2: var2
 '''
 class PythonServiceData(ServiceData):
-    def __init__(self, name, file, extra_args):
-        super().__init__(name, extra_args, ServiceType.PYTHON)
+    def __init__(self, name, file, extra_args, translator, translator_exclusive):
+        super().__init__(name, extra_args, ServiceType.PYTHON, translator, translator_exclusive)
         self.file = file
 
     def __str__(self):
-        return 'Python Service: {}\n\ttype: {}\n\tfile: {}\n\textra_args: {}'.format(self.name, self.type, self.file, self.extra_args)
+        return 'Python Service: {}\n\ttype: {}\n\tfile: {}\n\textra_args: {}\n\ttranslator (ex: {}): {}'.format(self.name, self.type, self.file, self.extra_args, self.translator_exclusive, self.translator)
 
 ''' Example:
 services:
@@ -65,14 +70,14 @@ services:
             - arg2 = 3
 '''
 class HTTPServiceData(ServiceData):
-    def __init__(self, name, url, method, auth, extra_args):
-        super().__init__(name, extra_args, ServiceType.HTTP)
+    def __init__(self, name, url, method, auth, extra_args, translator, translator_exclusive):
+        super().__init__(name, extra_args, ServiceType.HTTP, translator, translator_exclusive)
         self.url = url
         self.method = method 
         self.auth = auth
 
     def __str__(self):
-        return 'HTTP Service: {}\n\ttype: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\textra_args: {}'.format(self.name, self.type, self.url, self.method, self.auth, self.extra_args)
+        return 'HTTP Service: {}\n\ttype: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\textra_args: {}\n\ttranslator (ex: {}): {}'.format(self.name, self.type, self.url, self.method, self.auth, self.extra_args, self.translator_exclusive, self.translator)
 
 '''
 Returns an array of ServiceData objects in pipeline order
@@ -102,11 +107,20 @@ def parse_composition(path, variables_dict, print_debug=False):
         if not 'type' in args:
             raise Exception('Service requires a \"type\" value')
         type = _check_var_arg(args['type'], variables_dict)
+
         extra_args = None
         if 'args' in args:
             extra_args = _merge_list_to_dict(args['args'])
             for _arg in extra_args:
                 extra_args[_arg] = _check_var_arg(extra_args[_arg], variables_dict)
+
+        translator = None
+        if 'translator' in args:
+            translator = _merge_list_to_dict(args['translator'])
+        translator_exclusive = False
+        if 'translator-exclusive' in args:
+            translator_exclusive = _check_var_arg(args['translator-exclusive'], variables_dict)
+
         if(type == 'HTTP'):
             if not ('url' in args and 'method' in args):
                 raise Exception('HTTP service requires \"url\" and \"method\" values')
@@ -118,16 +132,16 @@ def parse_composition(path, variables_dict, print_debug=False):
                 auth = _merge_list_to_dict(args['auth'])
                 for _arg in auth:
                     auth[_arg] = _check_var_arg(auth[_arg], variables_dict)
-            res = HTTPServiceData(name, url, method, auth, extra_args)
+            res = HTTPServiceData(name, url, method, auth, extra_args, translator, translator_exclusive)
 
         elif(type == 'python'):
             if not 'file' in args:
                 raise Exception('Python service requires a \"file\" value')
             file = _check_var_arg(args['file'], variables_dict)
-            res = PythonServiceData(name, file, extra_args)
+            res = PythonServiceData(name, file, extra_args, translator, translator_exclusive)
 
         else:
-            res = ServiceData(name, extra_args)
+            res = ServiceData(name, extra_args, translator=translator, translator_exclusive=translator_exclusive)
 
         services.append(res)
         if print_debug:
