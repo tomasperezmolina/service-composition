@@ -2,13 +2,11 @@ from service_composition.pybossa.pybossa_wrapper import PybossaWrapper
 import json
 import os
 
-CONFIG_PATH="../config/pybossa_config.json"
-TEST_TWEET_PATH="../../../data/test_tweet.json"
+CONFIG_PATH="config/pybossa_config.json"
 
 config = None
 with open(os.path.abspath(CONFIG_PATH), 'r') as config_f:
     config = json.load(config_f)
-
 
 pybossa = PybossaWrapper(config['endpoint'], config['apikey'])
 

@@ -9,7 +9,8 @@ pipeline:
                 text: 'tweet_text'
                 username: 'tweet_username'
                 date: 'tweet_date'
-    - Print
+    # - Print
+    - Pybossa
 services:
     - TwitterCrawler:
         type: python
@@ -32,3 +33,6 @@ services:
     - Print:
         type: python
         file: service_composition.python_services.print_it
+    - Pybossa:
+        type: python
+        file: service_composition.python_services.to_pybossa
