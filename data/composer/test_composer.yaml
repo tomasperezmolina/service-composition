@@ -36,3 +36,7 @@ services:
     - Pybossa:
         type: python
         file: service_composition.python_services.to_pybossa
+        args:
+            - project_name: $PROJECT_NAME
+            - project_short_name: $PROJECT_NAME
+            - project_description: $PROJECT_DESCRIPTION

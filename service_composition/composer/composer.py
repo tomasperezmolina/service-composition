@@ -70,7 +70,7 @@ if __name__ == "__main__":
                 **s.extra_args,
             )
         elif s.type == yaml_parser.ServiceType.PYTHON:
-            service = PythonService(s.file)
+            service = PythonService(s.file, **s.extra_args)
         else:
             raise RuntimeError(f"Service type {s.type} is not recognized!")
 

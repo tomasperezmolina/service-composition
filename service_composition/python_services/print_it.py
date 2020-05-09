@@ -1,2 +1,2 @@
-def run(e):
+def run(e, **kwargs):
     print(e)

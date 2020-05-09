@@ -1,4 +1,4 @@
 import json
 
-def run(e):
+def run(e, **kwargs):
     return json.dumps({ "text": e["tweet_text"] })

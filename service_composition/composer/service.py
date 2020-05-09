@@ -43,13 +43,14 @@ class InvalidPythonService(RuntimeError):
     pass
 
 class PythonService(Service):
-    def __init__(self, module_name: str):
+    def __init__(self, module_name: str, **kwargs):
+        self.kwargs = kwargs
         self.module = importlib.import_module(module_name)
         if self.module.run is None:
             raise InvalidPythonService(f"Python module {module_name} does not have a top-level run function")
 
     def run(self, e=None):
-        return self.module.run(e)
+        return self.module.run(e, **self.kwargs)
 
 class FunctionService(Service):
     def __init__(self, function):
