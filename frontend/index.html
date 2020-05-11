@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Multidisciplinary project">
+    <meta name="author" content="Kantina Favier Molina">
+
+    <title>Multidisciplinary project</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom fonts for this template -->
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/7dffe92283.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+    <div class="container">
+        <div class="col-12 pt-3 pb-3">
+
+            <a class="navbar-brand col-1" href="index.html">
+                <i class="fa fa-rocket fa-5x" area-hidden="true"></i>
+            </a>
+            <div class="navbar-brand col-3">
+                <a class="org-header" href="#">Create your project</a>
+            </div>
+
+            <nav class="navbar navbar-expand-lg col-6 float-right navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+</nav>
+
+<form id="mainForm" method="POST" action="#" >
+
+    <!-- Project type-->
+<fieldset class="projectType mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mb-2">
+                    <h3>1. Choose your project type</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class=" btn-group btn-group-toggle col-6" data-toggle="buttons">
+            <label class="btn btn-outline-info mr-4">
+                <input type="radio" name="crowdsourcing" id="crowdsourcing" autocomplete="off">
+                <i class="fas fa-users fa-8x pt-2"></i>
+            </label>
+
+                <label class="btn btn-outline-info">
+                    <input class="disabled" type="radio" name="otherProject" id="otherProject" autocomplete="off" >
+                    <i class="fas fa-globe-americas fa-9x"></i>
+                </label>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<!-- Source type-->
+    <fieldset class="sourceType mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mb-2">
+                    <h3>2. Choose your source type</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
+                    <label class="btn btn-outline-info mr-4">
+                        <input type="radio" name="twitter" id="twitter" autocomplete="off">
+                        <i class="fab fa-twitter-square fa-6x"></i>
+                    </label>
+
+                    <label class="btn btn-outline-info mr-4">
+                        <input type="radio" name="facebook" id="facebook" autocomplete="off">
+                        <i class="fab fa-facebook-square fa-6x"></i>
+                    </label>
+
+                    <label class="btn btn-outline-info mr-4">
+                        <input type="radio" name="linkedin" id="linkedin" autocomplete="off">
+                        <i class="fab fa-linkedin fa-6x"></i>
+                    </label>
+
+                    <label class="btn btn-outline-info">
+                        <input type="radio" name="tumblr" id="tumblr" autocomplete="off">
+                        <i class="fab fa-tumblr-square fa-6x"></i></i>
+                    </label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </fieldset>
+
+
+<!--Hashtags -->
+    <fieldset class="hashtagType mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mb-2">
+                    <h3>3. Add hashtags separated by comma</h3>
+                </div>
+            </div>
+            <div class="row">
+                <textarea class="form-control col-6" name="hushtagsArea" id="hushtagsArea" rows="4"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Additional options-->
+    <fieldset class="additionalOptions mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mb-2">
+                    <h3>4. Choose additional options</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
+                    <label class="btn btn-outline-info mr-4">
+                        <input class="form-check-input" type="checkbox" name="addQuestion" id="addQuestion" autocomplete="off">
+                        <!--  <i class="far fa-edit fa-6x"></i>-->
+                          <i class="fas fa-pencil-alt fa-6x"></i>
+                      </label>
+
+                      <label class="btn btn-outline-info mr-4">
+                          <input class="form-check-input" type="checkbox" name="addLocation" id="addLocation" autocomplete="off">
+                          <i class="fas fa-map-marker-alt fa-6x"></i>
+                      </label>
+
+                      <label class="btn btn-outline-info mr-4">
+                          <input class="form-check-input"  type="checkbox" name="addTime" id="addTime" autocomplete="off">
+                          <i class="far fa-calendar-alt fa-6x"></i>
+                      </label>
+
+                      <label class="btn btn-outline-info mr-4">
+                          <input class="form-check-input"  type="checkbox" name="addFilters" id="addFilters" autocomplete="off">
+                          <i class="fas fa-cogs fa-6x"></i>
+                      </label>
+                  </div>
+              </div>
+          </div>
+      </fieldset>
+
+    <div class="mt-4 container">
+        <div class="row">
+            <div class="col-lg-10 mb-2">
+                <h3>5. Choose predefined order of services or create your own</h3>
+            </div>
+        </div>
+    </div>
+  <!--Start-->
+<fieldset class="startType mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            <button type="submit" role="button" aria-pressed="true" class="btn btn-primary btn-success float-right p-4 col-3">
+                <span class="biggy pr-3">Start</span>
+           <i class="fas fa-play fa-2x"></i>
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+</fieldset>
+
+</form>
+<div class="container">
+    <p class="pull-right" id = "fileResult"></p>
+</div>
+
+<!-- Footer -->
+<footer class="footer call-to-action mt-5 bg-light">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <p class="text-muted mb-4 mb-lg-0">Multidisciplinary project</p>
+            </div>
+            <div class="col-lg-3 h-100 text-center text-lg-left my-auto">
+                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>whatever(at)polimi.it</p>
+                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>whatever(at)polimi.it</p>
+            </div>
+
+            <div class="col-lg-3 h-100 text-center text-lg-right my-auto">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-facebook fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-instagram fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JQuery and JS-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
