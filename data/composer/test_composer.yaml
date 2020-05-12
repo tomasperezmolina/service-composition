@@ -2,31 +2,36 @@ pipeline:
     - TwitterCrawler
     # - Geolocation:
     #     include-previous: true
-    - GetText:
+    # - GetText:
+    #     translator:
+    #         exclusive: True #Turn on exclusive translation function
+    #         schema:
+    #             text: 'tweet_text'
+    #             username: 'tweet_username'
+    #             date: 'tweet_date'
+    # - Print
+    - Pybossa:
         translator:
             exclusive: True #Turn on exclusive translation function
             schema:
-                text: 'tweet_text'
-                username: 'tweet_username'
-                date: 'tweet_date'
-    # - Print
-    - Pybossa
+                text: 'tweet'
+                user: 'user'
 services:
     - TwitterCrawler:
         type: python
         file: service_composition.python_services.get_tweets
-    - Geolocation:
-        type: HTTP
-        threads: 4
-        url: http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json
-        method: post
-        content-type: json
-        auth:
-            - type: BASIC
-            - user: $USERNAME
-            - password: $PASSWORD
-        args:
-            - timeout: 200
+    # - Geolocation:
+    #     type: HTTP
+    #     threads: 4
+    #     url: http://131.175.120.108:20007/e2mc/CIME/v1.0/tweet/twitter_json
+    #     method: post
+    #     content-type: json
+    #     auth:
+    #         - type: BASIC
+    #         - user: $USERNAME
+    #         - password: $PASSWORD
+    #     args:
+    #         - timeout: 200
     - GetText:
         type: python
         file: service_composition.python_services.get_text

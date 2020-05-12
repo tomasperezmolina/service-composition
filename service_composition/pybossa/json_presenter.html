@@ -1,15 +1,22 @@
-<div class="row">
-    <div class="col-md-12">
-      <pre id="debug">
-        
-      </pre>
-      <button class="btn btn-success btn-answer" value='Yes'><i class="icon icon-white icon-thumbs-up"></i> <span id="i18n_yes">Yes</span></button>
+<h2>Is this tweet relevant?</h2>
+<div style="display: flex; flex-direction: row; margin-bottom: 2rem;">
+    <div style="padding: 1rem;">
+        <img id="profile-picture">
+    </div>
+    <div>
+        <p id="username"></p>
+        <p id="tweet"></p>
     </div>
 </div>
+<button style="margin-right: 2rem;" class="btn btn-success btn-answer" value='Yes'><i class="icon icon-white icon-thumbs-up"></i> <span id="i18n_yes">Yes</span></button>
+<button style="margin-left: 2rem;" class="btn btn-danger btn-answer" value='No'><i class="icon icon-white icon-thumbs-up"></i> <span id="i18n_no">No</span></button>
 <script type="text/javascript">
 (function() {
     pybossa.taskLoaded(function(task, deferred){
-    	document.getElementById("debug").innerHTML = JSON.stringify(task, null, "\t");
+        var tweet_info = task.info.tweet;
+        document.getElementById("username").innerText = tweet_info.user.name + " :";
+        document.getElementById("tweet").innerText = tweet_info["tweet"];
+        document.getElementById("profile-picture").setAttribute("src", tweet_info.user["profile_image_url"]);
 
         $('.btn-answer').off('click').on('click', function(evt) {
             var btn = $(this);
@@ -25,8 +32,6 @@
     pybossa.presentTask(function(task, deferred){
         deferred.resolve();  
     });
-  
-  
 
     pybossa.run('[[shortname]]');
 })();
