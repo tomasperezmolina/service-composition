@@ -1,48 +1,65 @@
-var $form=$("#mainForm");
-//var $hashtags = $("#hushtagsArea");
-var $displayResult = $("#fileResult");
-
-// On User press submit actions
-$form.on('submit', function (e) {
-    e.preventDefault();
-    let jsonObject = collectFormdata();
-    download( jsonObject );
-})
-
-// Correct form data and return as Json object
-function collectFormdata() {
-    var elements = document.querySelector('#mainForm').elements;
-    var obj ={};
-    for(var i = 0 ; i < elements.length ; i++){
-        var item = elements.item(i);
-        obj[item.name] = item.value;
+// Drag and drop events
+jQuery(function($) {
+    function $(id) {
+        return document.getElementById(id);
     }
-     return JSON.stringify(obj);
-}
+    dragula([$('drag-elements'), $('drop-target')]);
+});
 
-// Create Blob, call download file
-function download( jsonObject){
-    var blob= new Blob([jsonObject], {type:'text/plain;charset=UTF-8'});
-    downloadFile( blob, "yamlConfiguration.json");
-}
+//All Events handling
+jQuery(function($) {
+   $( "input:checkbox" ).on('change', function(){
+       if ( this.checked ){
+           $(this).closest("label").addClass('bg-primary text-white');
+           if (this.id === "addQuestion" ){
+               $('.formulateQuestionGroup').show();
+           }
+       }
+       else{
+          $(this).closest("label").removeClass('bg-primary text-white');
+           if ( this.id === "addQuestion" ){
+               $('.formulateQuestionGroup').hide();
+           }
+       }
+    });
 
-//
-function downloadFile( blob, filename ){
-    let url = null;
+    const $form=$("#mainForm");
+    //var $hashtags = $("#hushtagsArea");
+    const $displayResult = $("#fileResult");
 
-    /*    if ( $("#hushtagsArea") ) {
-        URL.revokeObjectURL( url);
-    }*/
+    // On User press submit actions
+    $form.on('submit', function (e) {
+        e.preventDefault();
+        //  console.log( $( this ).serializeArray());
+        // let jsonObject = collectFormdata();
+        let jsonObject = JSON.stringify ($( this ).serializeArray());
+        download( jsonObject );
+    })
 
-    url = window.URL.createObjectURL(blob);
+    // Create Blob, call download file
+    function download( jsonObject ){
+        // let result = runPyScript(jsonObject);
+        let blob= new Blob([jsonObject], {type:'text/plain;charset=UTF-8'});
+        downloadFile( blob, "yamlConfiguration.json");
+    }
 
-    let link = document.createElement("a")
-    link.download = filename;
-    link.innerText = 'Download Yaml configuration';
-    link.href = url;
-    link.classList.add("downloadLink");
-    $displayResult.append(link);
-    link.click();
-    link.remove();  // improve this-remove a for 2d click and create new
-}
+    // Download
+    function downloadFile( blob, filename ){
+        let url = null;
 
+        /*    if ( $("#hushtagsArea") ) {
+            URL.revokeObjectURL( url);
+        }*/
+
+        url = window.URL.createObjectURL(blob);
+
+        let link = document.createElement("a")
+        link.download = filename;
+        link.innerText = 'Download Yaml configuration';
+        link.href = url;
+        link.classList.add("downloadLink");
+        $displayResult.append(link);
+        link.click();
+        link.remove();  // improve this-remove a for 2d click and create new
+    }
+});

@@ -32,15 +32,14 @@
 <nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
     <div class="container">
         <div class="col-12 pt-3 pb-3">
-
-            <a class="navbar-brand col-1" href="index.html">
+            <a class="navbar-brand pl-0 col-1" href="index.html">
                 <i class="fa fa-rocket fa-5x" area-hidden="true"></i>
             </a>
             <div class="navbar-brand col-3">
                 <a class="org-header" href="#">Create your project</a>
             </div>
-
-            <nav class="navbar navbar-expand-lg col-6 float-right navbar-light">
+            <div class="col-9 mt-n5">
+            <nav class="navbar navbar-expand-lg col-3 mt-2 float-right navbar-light">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -58,15 +57,15 @@
                     </ul>
                 </div>
             </nav>
-
+            </div>
         </div>
     </div>
 </nav>
 
-<form id="mainForm" method="POST" action="#" >
+<form role="form" data-toggle="validator" id="mainForm" method="POST" action="#" >
 
     <!-- Project type-->
-<fieldset class="projectType mt-4">
+<fieldset class="projectType mt-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 mb-2">
@@ -74,14 +73,14 @@
             </div>
         </div>
         <div class="row">
-            <div class=" btn-group btn-group-toggle col-6" data-toggle="buttons">
-            <label class="btn btn-outline-info mr-4">
-                <input type="radio" name="crowdsourcing" id="crowdsourcing" autocomplete="off">
+            <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
+            <label class="btn checked btn-outline-info mr-4">
+                <input class="form-control" checked type="radio" name="projectType" id="crowdsourcing" value="crowdsourcing" autocomplete="off">
                 <i class="fas fa-users fa-8x pt-2"></i>
             </label>
 
                 <label class="btn btn-outline-info">
-                    <input class="disabled" type="radio" name="otherProject" id="otherProject" autocomplete="off" >
+                    <input class="form-control" type="radio" name="projectType" id="otherProject" value="otherProject" autocomplete="off" >
                     <i class="fas fa-globe-americas fa-9x"></i>
                 </label>
             </div>
@@ -100,22 +99,22 @@
             <div class="row">
                 <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
                     <label class="btn btn-outline-info mr-4">
-                        <input type="radio" name="twitter" id="twitter" autocomplete="off">
+                        <input type="radio" checked name="sourceType" id="twitter" value="twitter" autocomplete="off">
                         <i class="fab fa-twitter-square fa-6x"></i>
                     </label>
 
                     <label class="btn btn-outline-info mr-4">
-                        <input type="radio" name="facebook" id="facebook" autocomplete="off">
+                        <input type="radio" name="sourceType" id="facebook" value="facebook" autocomplete="off">
                         <i class="fab fa-facebook-square fa-6x"></i>
                     </label>
 
                     <label class="btn btn-outline-info mr-4">
-                        <input type="radio" name="linkedin" id="linkedin" autocomplete="off">
+                        <input type="radio" name="linkedin" name="sourceType" id="linkedin" value="linkedin" autocomplete="off">
                         <i class="fab fa-linkedin fa-6x"></i>
                     </label>
 
                     <label class="btn btn-outline-info">
-                        <input type="radio" name="tumblr" id="tumblr" autocomplete="off">
+                        <input type="radio" name="sourceType" id="tumblr" value="tumlr" autocomplete="off">
                         <i class="fab fa-tumblr-square fa-6x"></i></i>
                     </label>
                 </div>
@@ -134,7 +133,12 @@
                 </div>
             </div>
             <div class="row">
-                <textarea class="form-control col-6" name="hushtagsArea" id="hushtagsArea" rows="4"></textarea>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-hashtag fa-3x"></i></span>
+                    </div>
+                    <textarea required class="form-control col-6" name="hushtagsArea" id="hushtagsArea" rows="4" aria-label="With textarea"></textarea>
+                </div>
             </div>
         </div>
     </fieldset>
@@ -148,29 +152,37 @@
                 </div>
             </div>
             <div class="row">
-                <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
+                <div class="btn-group col-6">
                     <label class="btn btn-outline-info mr-4">
-                        <input class="form-check-input" type="checkbox" name="addQuestion" id="addQuestion" autocomplete="off">
-                        <!--  <i class="far fa-edit fa-6x"></i>-->
+                        <input class="form-check-input options" type="checkbox" name="options" id="addQuestion">
                           <i class="fas fa-pencil-alt fa-6x"></i>
                       </label>
 
                       <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input" type="checkbox" name="addLocation" id="addLocation" autocomplete="off">
-                          <i class="fas fa-map-marker-alt fa-6x"></i>
+                          <input class="form-check-input options" type="checkbox" name="options" id="addLocation">
+                          <i class="fas fa-search-location fa-6x"></i>
                       </label>
 
                       <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input"  type="checkbox" name="addTime" id="addTime" autocomplete="off">
+                          <input class="form-check-input options"  type="checkbox" name="options" id="addTime" >
                           <i class="far fa-calendar-alt fa-6x"></i>
                       </label>
 
                       <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input"  type="checkbox" name="addFilters" id="addFilters" autocomplete="off">
+                          <input class="form-check-input options"  type="checkbox" name="options" id="addFilters">
                           <i class="fas fa-cogs fa-6x"></i>
                       </label>
                   </div>
               </div>
+            <div class="row">
+                <div class="input-group mb-3 formulateQuestionGroup" style="display:none">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Formulate your question</span>
+                    </div>
+                    <input type="text" class="form-control" id="question" aria-describedby="basic-addon3">
+                </div>
+            </div>
+            </div>
           </div>
       </fieldset>
 
@@ -178,6 +190,25 @@
         <div class="row">
             <div class="col-lg-10 mb-2">
                 <h3>5. Choose predefined order of services or create your own</h3>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="container">
+
+                <div id="drag-elements">
+                    <div class="col-2 reset-line-height service-order">Twitter Crawler</div>
+                    <div class="col-2 service-order">Geolocation</div>
+                    <div class="col-2 service-order">Filters</div>
+                    <div class="col-2 service-order">Crowdsourcing</div>
+                    <div class="col-2 reset-line-height service-order">One Dummy service</div>
+                </div>
+
+                <div class="col-12">
+                    <div id="drop-target">
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -197,9 +228,6 @@
 </fieldset>
 
 </form>
-<div class="container">
-    <p class="pull-right" id = "fileResult"></p>
-</div>
 
 <!-- Footer -->
 <footer class="footer call-to-action mt-5 bg-light">
@@ -245,5 +273,8 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.2/lib/draggable.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+
 </body>
 </html>
