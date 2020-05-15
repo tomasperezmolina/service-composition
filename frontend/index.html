@@ -39,56 +39,60 @@
                 <a class="org-header" href="#">Create your project</a>
             </div>
             <div class="col-9 mt-n5">
-            <nav class="navbar navbar-expand-lg col-3 mt-2 float-right navbar-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                <nav class="navbar navbar-expand-lg col-3 mt-2 float-right navbar-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </div>
     </div>
 </nav>
 
-<form role="form" data-toggle="validator" id="mainForm" method="POST" action="#" >
+<form role="form" data-toggle="validator" id="mainForm" method="POST" action="#">
 
     <!-- Project type-->
-<fieldset class="projectType mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 mb-2">
+    <fieldset class="projectType mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mb-2">
                     <h3>1. Choose your project type</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
+                    <label class="btn checked btn-outline-info mr-4">
+                        <input class="form-control" checked type="radio" name="projectType" id="crowdsourcing"
+                               value="crowdsourcing" autocomplete="off">
+                        <i class="fas fa-users fa-8x pt-2"></i>
+                    </label>
+
+                    <label class="btn btn-outline-info">
+                        <input class="form-control" type="radio" name="projectType" id="otherProject"
+                               value="otherProject" autocomplete="off">
+                        <i class="fas fa-globe-americas fa-9x"></i>
+                    </label>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="btn-group btn-group-toggle col-6" data-toggle="buttons">
-            <label class="btn checked btn-outline-info mr-4">
-                <input class="form-control" checked type="radio" name="projectType" id="crowdsourcing" value="crowdsourcing" autocomplete="off">
-                <i class="fas fa-users fa-8x pt-2"></i>
-            </label>
+    </fieldset>
 
-                <label class="btn btn-outline-info">
-                    <input class="form-control" type="radio" name="projectType" id="otherProject" value="otherProject" autocomplete="off" >
-                    <i class="fas fa-globe-americas fa-9x"></i>
-                </label>
-            </div>
-        </div>
-    </div>
-</fieldset>
-
-<!-- Source type-->
+    <!-- Source type-->
     <fieldset class="sourceType mt-4">
         <div class="container">
             <div class="row">
@@ -109,7 +113,8 @@
                     </label>
 
                     <label class="btn btn-outline-info mr-4">
-                        <input type="radio" name="linkedin" name="sourceType" id="linkedin" value="linkedin" autocomplete="off">
+                        <input type="radio" name="linkedin" name="sourceType" id="linkedin" value="linkedin"
+                               autocomplete="off">
                         <i class="fab fa-linkedin fa-6x"></i>
                     </label>
 
@@ -124,7 +129,7 @@
     </fieldset>
 
 
-<!--Hashtags -->
+    <!--Hashtags -->
     <fieldset class="hashtagType mt-4">
         <div class="container">
             <div class="row">
@@ -137,7 +142,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fas fa-hashtag fa-3x"></i></span>
                     </div>
-                    <textarea required class="form-control col-6" name="hushtagsArea" id="hushtagsArea" rows="4" aria-label="With textarea"></textarea>
+                    <textarea class="form-control col-6" name="hashtags" id="hashtagsArea" rows="4"
+                              aria-label="Textarea" required></textarea>
                 </div>
             </div>
         </div>
@@ -154,78 +160,87 @@
             <div class="row">
                 <div class="btn-group col-6">
                     <label class="btn btn-outline-info mr-4">
-                        <input class="form-check-input options" type="checkbox" name="options" id="addQuestion">
-                          <i class="fas fa-pencil-alt fa-6x"></i>
-                      </label>
+                        <input class="form-check-input options" type="checkbox" name="addQuestion" value="chosen"
+                               id="addQuestion">
+                        <i class="fas fa-pencil-alt fa-6x"></i>
+                    </label>
 
-                      <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input options" type="checkbox" name="options" id="addLocation">
-                          <i class="fas fa-search-location fa-6x"></i>
-                      </label>
+                    <label class="btn btn-outline-info mr-4">
+                        <input class="form-check-input options" type="checkbox" name="addLocation" value="chosen"
+                               id="addLocation">
+                        <i class="fas fa-search-location fa-6x"></i>
+                    </label>
 
-                      <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input options"  type="checkbox" name="options" id="addTime" >
-                          <i class="far fa-calendar-alt fa-6x"></i>
-                      </label>
+                    <label class="btn btn-outline-info mr-4">
+                        <input class="form-check-input options" type="checkbox" name="addDates" value="chosen"
+                               id="addTime">
+                        <i class="far fa-calendar-alt fa-6x"></i>
+                    </label>
 
-                      <label class="btn btn-outline-info mr-4">
-                          <input class="form-check-input options"  type="checkbox" name="options" id="addFilters">
-                          <i class="fas fa-cogs fa-6x"></i>
-                      </label>
-                  </div>
-              </div>
+                    <label class="btn btn-outline-info mr-4">
+                        <input class="form-check-input options" type="checkbox" name="addFilters" value="chosen"
+                               id="addFilters">
+                        <i class="fas fa-cogs fa-6x"></i>
+                    </label>
+                </div>
+            </div>
             <div class="row">
                 <div class="input-group mb-3 formulateQuestionGroup" style="display:none">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">Formulate your question</span>
                     </div>
-                    <input type="text" class="form-control" id="question" aria-describedby="basic-addon3">
+                    <input type="text" class="form-control" name="question" id="question"
+                           aria-describedby="basic-addon3">
                 </div>
             </div>
-            </div>
-          </div>
-      </fieldset>
+        </div>
+        </div>
+    </fieldset>
 
-    <div class="mt-4 container">
+    <fieldset class="mt-4 container">
         <div class="row">
             <div class="col-lg-10 mb-2">
                 <h3>5. Choose predefined order of services or create your own</h3>
             </div>
         </div>
         <div class="row">
-
             <div class="container">
-
                 <div id="drag-elements">
-                    <div class="col-2 reset-line-height service-order">Twitter Crawler</div>
-                    <div class="col-2 service-order">Geolocation</div>
-                    <div class="col-2 service-order">Filters</div>
-                    <div class="col-2 service-order">Crowdsourcing</div>
-                    <div class="col-2 reset-line-height service-order">One Dummy service</div>
-                </div>
-
-                <div class="col-12">
-                    <div id="drop-target">
+                    <div id="dropTwitterCrawler" data-service-order="Twitter crawler"
+                         class="col-2 reset-line-height service-order">Twitter Crawler
                     </div>
-
+                    <div id="dropGeolocation" data-service-order="Geolocation" class="col-2 service-order">Geolocation
+                    </div>
+                    <div id="dropFilters" data-service-order="Pybossa" class="col-2 service-order">Filters</div>
+                    <div id="dropCrowdsourcing" data-service-order="CIME" class="col-2 service-order">Crowdsourcing
+                    </div>
+                    <div id="dropDummy" data-service-order="One Dummy service"
+                         class="col-2 reset-line-height service-order">One Dummy service
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div id="drop-target" class="predefinedPipeline">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-  <!--Start-->
-<fieldset class="startType mt-4">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-            <button type="submit" role="button" aria-pressed="true" class="btn btn-primary btn-success float-right p-4 col-3">
-                <span class="biggy pr-3">Start</span>
-           <i class="fas fa-play fa-2x"></i>
-            </button>
+    </fieldset>
+
+    <!--Start-->
+    <fieldset class="startType mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <button type="submit" role="button" aria-pressed="true"
+                            class="btn btn-primary btn-success float-right p-4 col-3">
+                        <span class="biggy pr-3">Start</span>
+                        <i class="fas fa-play fa-2x"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         </div>
-    </div>
-    </div>
-</fieldset>
+    </fieldset>
 
 </form>
 
@@ -238,8 +253,10 @@
                 <p class="text-muted mb-4 mb-lg-0">Multidisciplinary project</p>
             </div>
             <div class="col-lg-3 h-100 text-center text-lg-left my-auto">
-                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>whatever(at)polimi.it</p>
-                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>whatever(at)polimi.it</p>
+                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>elizaveta.kantina@mail.polimi.it
+                </p>
+                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>manuel.pedrozo@mail.polimi.it</p>
+                <p class="text-muted mb-4 mb-lg-0"><i class="far fa-envelope pr-2"></i>tomas.perez@mail.polimi.it</p>
             </div>
 
             <div class="col-lg-3 h-100 text-center text-lg-right my-auto">
@@ -266,14 +283,19 @@
 </footer>
 
 <!-- JQuery and JS-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.2/lib/draggable.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 
 </body>
