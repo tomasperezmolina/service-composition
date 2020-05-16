@@ -15,6 +15,6 @@ project = None
 def run(tweet, **kwargs):
     global project
     if project is None:
-        project = pybossa.create_project(kwargs["project_name"], kwargs["project_short_name"], kwargs["project_description"], 'service_composition/pybossa/json_presenter.html')
+        project = pybossa.create_project(kwargs["project_name"], kwargs["project_short_name"], kwargs["project_description"], 'service_composition/pybossa/json_presenter.html', title=kwargs["question"])
 
     pybossa.create_task(project.id, tweet)
