@@ -159,13 +159,18 @@ a.org-header
 }
 
 a.org-header:hover {
-  color: initial;
   text-decoration: none;
   color: #212F3D;
 }
 
 .logo-image {
   margin-top: -20px;
+}
+
+@-moz-document url-prefix() {
+    input.form-check-input.options {
+        opacity: 0;
+    }
 }
 
 input.form-check-input.options {
