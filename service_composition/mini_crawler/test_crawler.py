@@ -1,4 +1,4 @@
-from service_composition.mini_crawler.mini_crawler import MiniCrawler
+from mini_crawler import MiniCrawler
 import os
 import json
 
