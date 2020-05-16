@@ -1,0 +1,25 @@
+pipeline:
+    - TwitterCrawler
+    - Pybossa:
+        translator:
+            exclusive: True #Turn on exclusive translation function
+            schema:
+                text: 'tweet'
+                user: 'user'
+services:
+    - TwitterCrawler:
+        type: python
+        file: service_composition.python_services.get_tweets
+        args:
+            - hash_tags:
+                - eruption
+                - disaster
+                - Etna
+    - Pybossa:
+        type: python
+        file: service_composition.python_services.to_pybossa
+        args:
+            - question: "Is this source related to the Etna volcanic eruption?"
+            - project_name: $PROJECT_NAME
+            - project_short_name: $PROJECT_NAME
+            - project_description: $PROJECT_DESCRIPTION
