@@ -48,7 +48,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                                <a class="nav-link pl-3 pr-3" href="#">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Services</a>
@@ -80,12 +80,14 @@
                         <input class="form-control" checked type="radio" name="projectType" id="crowdsourcing"
                                value="crowdsourcing" autocomplete="off">
                         <i class="fas fa-users fa-8x pt-2"></i>
+                        <p class="pt-2">Crowdsourcing</p>
                     </label>
 
                     <label class="btn btn-outline-info">
                         <input class="form-control" type="radio" name="projectType" id="otherProject"
                                value="otherProject" autocomplete="off">
                         <i class="fas fa-globe-americas fa-9x"></i>
+                        <p>Other project</p>
                     </label>
                 </div>
             </div>
@@ -134,11 +136,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 mb-2">
-                    <h3>3. Add hashtags separated by comma</h3>
+                    <h3>3. Add keywords separated by comma</h3>
                 </div>
             </div>
             <div class="row">
-                <div class="input-group">
+                <div class="input-group col-12">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fas fa-hashtag fa-3x"></i></span>
                     </div>
@@ -159,25 +161,25 @@
             </div>
             <div class="row">
                 <div class="btn-group col-6">
-                    <label class="btn btn-outline-info mr-4">
+                    <label class="btn btn-outline-info mr-4" data-html="true"  data-placement="left"  data-toggle="tooltip" title='<p>Formulate a question for crowdsourcing</p>'>
                         <input class="form-check-input options" type="checkbox" name="addQuestion" value="chosen"
                                id="addQuestion">
                         <i class="fas fa-pencil-alt fa-6x"></i>
                     </label>
 
-                    <label class="btn btn-outline-info mr-4">
+                    <label class="btn btn-outline-info mr-4" data-placement="top" data-html="true" data-toggle="tooltip" title='<p>Define search area location</p>'>
                         <input class="form-check-input options" type="checkbox" name="addLocation" value="chosen"
                                id="addLocation">
                         <i class="fas fa-search-location fa-6x"></i>
                     </label>
 
-                    <label class="btn btn-outline-info mr-4">
+                    <label class="btn btn-outline-info mr-4" data-placement="bottom" data-html="true" data-toggle="tooltip" title='<p>Add dates or time period for your search</p>'>
                         <input class="form-check-input options" type="checkbox" name="addDates" value="chosen"
                                id="addTime">
                         <i class="far fa-calendar-alt fa-6x"></i>
                     </label>
 
-                    <label class="btn btn-outline-info mr-4">
+                    <label class="btn btn-outline-info mr-4" data-html="true"  data-placement="right" data-toggle="tooltip" title='<p pt-2>Specify filters for your crowdsourcing research </p>'>
                         <input class="form-check-input options" type="checkbox" name="addFilters" value="chosen"
                                id="addFilters">
                         <i class="fas fa-cogs fa-6x"></i>
@@ -185,7 +187,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-group mb-3 pl-3 col-11 formulateQuestionGroup" style="display:none">
+                <div class="input-group mb-3 pl-3 mt-3 col-11 formulateQuestionGroup" style="display:none">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">Formulate your question</span>
                     </div>
@@ -224,7 +226,12 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="container col-lg-11">
+                <p id="recommendation"></p>
+        </div></div>
     </fieldset>
+
 
     <!--Start-->
     <fieldset class="startType mt-4">
@@ -292,11 +299,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
-
 </body>
 </html>

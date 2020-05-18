@@ -3,13 +3,16 @@ jQuery(function ($) {
     function $(id) {
         return document.getElementById(id);
     }
-
     dragula([$('drag-elements'), $('drop-target')]);
 });
 
 //All Events handling
 jQuery(function ($) {
     let quest = $('input#question');
+
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    });
 
     $("input:checkbox").on('change', function () {
         if (this.checked) {
