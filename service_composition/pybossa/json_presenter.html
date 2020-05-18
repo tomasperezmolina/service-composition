@@ -23,7 +23,7 @@
             var answer = btn.attr("value");
             if (typeof answer != 'undefined') {
                 pybossa.saveTask(task.id, answer).done(function() {
-                    deferred.resolve();
+                    deferred.resolve(task);
                 });
             }
         });
