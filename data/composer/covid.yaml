@@ -12,14 +12,14 @@ services:
         file: service_composition.python_services.get_tweets
         args:
             - hash_tags:
-                - eruption
-                - disaster
-                - Etna
+                - covid
+                - coronavirus
+                - covid-19
     - Pybossa:
         type: python
         file: service_composition.python_services.to_pybossa
         args:
-            - question: "Is this source related to the Etna volcanic eruption?"
+            - question: "Is this tweet relevant information about the Coronavirus pandemic?"
             - project_name: $PROJECT_NAME
             - project_short_name: $PROJECT_NAME
             - project_description: $PROJECT_DESCRIPTION
