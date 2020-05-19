@@ -19,7 +19,7 @@ services:
         type: python
         file: service_composition.python_services.to_pybossa
         args:
-            - question: "Is this tweet relevant information about the Coronavirus pandemic?"
+            - question: "Does this tweet present relevant information about the Coronavirus Pandemic?"
             - project_name: $PROJECT_NAME
             - project_short_name: $PROJECT_NAME
             - project_description: $PROJECT_DESCRIPTION
