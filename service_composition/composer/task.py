@@ -6,15 +6,19 @@ import json
 from service_composition.composer.service import Service
 
 class Task(luigi.Task):
+    """Name of the task"""
     name = luigi.Parameter()
+
+    """Amount of threads to run the task in parallel"""
     threads = luigi.IntParameter(default=1)
 
+    """Service to run in this task"""
     service = luigi.Parameter(significant=False)
+
+    """Output path for the task execution"""
     path = luigi.Parameter(significant=False)
     
-    """
-    Task dependencies that function as input for this task.
-    """
+    """Task dependencies that function as input for this task."""
     dependencies = luigi.Parameter(default=[], significant=False)
 
     """
@@ -23,14 +27,10 @@ class Task(luigi.Task):
     """
     output_data_type_map = luigi.Parameter(significant=False) 
 
-    """
-    How to transform the inputs of the task into a data structure that is fed into the service
-    """
+    """How to transform the inputs of the task into a data structure that is fed into the service"""
     input_map = luigi.Parameter(significant=False, default=lambda x: x)
 
-    """
-    Include data fed as input in the output of this task
-    """
+    """Include data fed as input in the output of this task"""
     include_previous_data = luigi.BoolParameter(significant=False, default=False)
 
     def run(self):
