@@ -15,7 +15,7 @@ $ pipenv install
 $ pipenv shell
 $ luigid
 ```
-The following commands assume that the environment is setup correctly
+All the following commands (running the composer and demo workflows) assume that the environment is setup correctly.
 
 ## Run Composer
 Add -h, --help to show help about parameters
