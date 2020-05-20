@@ -1,5 +1,9 @@
 # Service composition prototype
 
+## Requirements
+- Python 3.7
+- Pipenv
+
 ## Installation
 
 ```bash
