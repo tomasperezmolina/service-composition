@@ -1,6 +1,6 @@
-from service_composition.mini_crawler.fake_crawler import FakeCrawler
+from fake_crawler import FakeCrawler
 
-TEST_FILE="../data/test.txt"
+TEST_FILE="test_data/fake_input/tweets.txt"
 
 def test_get_tweets():
     crawler = FakeCrawler(data_path=TEST_FILE)

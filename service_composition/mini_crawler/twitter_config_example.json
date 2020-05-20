@@ -1,6 +1,6 @@
 {
         "apikeys": {
-                "i0mf0rmer034": {
+                "USERNAME": {
                         "app_key": "APP_KEY",
                         "app_secret": "APP_SECRET",
                         "oauth_token": "OAUTH_TOKEN",
