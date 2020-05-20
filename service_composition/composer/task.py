@@ -6,6 +6,8 @@ import json
 from service_composition.composer.service import Service
 
 class Task(luigi.Task):
+    """Wrapper for a luigi task, capable of running a single service in a pipeline according to the given configuration"""
+
     """Name of the task"""
     name = luigi.Parameter()
 

@@ -1,15 +1,12 @@
 import os
 import json
 
-'''
-Gets tweets from a json file as stored by the MiniCrawler
-'''
+
 class FakeCrawler:
+    """Gets tweets from a json file as stored by the MiniCrawler"""
 
     def __init__(self, *args, **kwargs):
-        """
-        Constructor with data_path
-        """
+        """Constructor with data_path"""
         
         data_path = os.path.abspath(kwargs.pop('data_path', None))
 

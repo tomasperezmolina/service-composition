@@ -100,10 +100,25 @@ class HTTPServiceData(ServiceData):
     def __str__(self):
         return 'HTTP Service: {}\n\ttype: {}\n\tthreads: {}\n\turl: {}\n\tmethod: {}\n\tauth: {}\n\tcontent_type: {}\n\tconnection_args: {}\n\textra_args: {}'.format(self.name, self.type, self.threads, self.url, self.method, self.auth, self.content_type, self.connection_args, self.extra_args)
 
-'''
-Returns an array of ServiceData objects in pipeline order
-'''
 def parse_composition(path, variables_dict, print_debug=False):
+    """
+    Parse YAML file, returning a list of services in pipeline order
+
+    Parameters
+    --------------
+        path : str
+            Path to yaml file
+        variables_dict : Dict[str, str]
+            Dictionary mapping the variable template (key) to the variable value (value)
+        print_debug : bool
+            Whether to print the parsed pipeline or not
+
+    Returns
+    --------------
+        pipeline : List[ServiceData]
+            List of services in pipeline order
+    """
+    
     if print_debug:
         print('[YAML parser]:')
     loaded = yaml.safe_load(open(path, 'r'))
